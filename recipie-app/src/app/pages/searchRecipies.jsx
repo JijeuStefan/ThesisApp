@@ -5,9 +5,115 @@ export default function SearchRecipies(){
     return (
         <div className="flex flex-col">
           <Header />
-          <div className="prose prose-slate prose-h2:text-blue-700">
+          <div className="">
             <h2>Welcome to Tailwind Docs Style</h2>
-            <p>This is paragraph text styled like the Tailwind documentation.</p>
+            <p>
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+
+            This is paragraph text styled like the Tailwind documentation.This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            This is paragraph text styled like the Tailwind documentation.
+            </p>
             <ul>
               <li>Custom font</li>
               <li>Prose class</li>

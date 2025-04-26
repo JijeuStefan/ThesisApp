@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @import "tw-animate-css";
+@import "@fontsource/inter/index.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -41,7 +42,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --color-mint-500: oklch(0.72 0.11 178);
+  --font-inter: "Inter", "sans-serif";
 }
 
 :root {

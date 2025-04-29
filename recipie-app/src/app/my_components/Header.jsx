@@ -3,10 +3,10 @@ import { House, Search, Phone} from 'lucide-react';
 export default function Header(){
     return (
         <header className="sticky inset-x-0 top-0 z-50 font-inter border-b border-gray-950/10 bg-background/65 backdrop-blur-sm">
-            <div className="flex flex-row items-center justify-between h-14 px-8 gap-8">
+            <div className="flex flex-row items-center justify-between h-14 px-6 gap-4">
                 <div className="flex flex-row items-center gap-2">
                     <svg 
-                        className="h-7 w-7"
+                        className="h-6 w-6"
                         xmlns="http://www.w3.org/2000/svg" 
                         shapeRendering="geometricPrecision" 
                         textRendering="geometricPrecision" 
@@ -21,7 +21,7 @@ export default function Header(){
                     <span className="text-xl font-semibold ">visionBite</span>
                 </div>
                 <div className="flex flex-row items-center">
-                    <div className="hidden sm:flex">
+                    <div className="hidden md:flex">
                         <nav className="flex flex-row items-center gap-4">
                             <a className="text-sm hover:border-b hover:border-black" href="/home">Home</a>
                             <a className="text-sm hover:border-b hover:border-black" href="/search">Search</a>
@@ -41,7 +41,7 @@ export default function Header(){
                             </a>   
                         </nav>
                     </div>
-                    <div className="flex sm:hidden">
+                    <div className="flex md:hidden">
                         <nav className="flex flex-row items-center gap-2">
                             <a className="inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-200" href="/home">
                                 <House className="h-5 w-5"></House>

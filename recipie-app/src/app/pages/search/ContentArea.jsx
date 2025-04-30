@@ -1,5 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import DOMPurify from 'dompurify';
+import { Check, X, Clock4 } from 'lucide-react';
 
 import { Button } from "@/components/ui/button"
 import {
@@ -10,20 +12,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
 
 export default function ContentArea(){
-    const [recipies, setRecipies] = useState("");
-    let subArray =[1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6];
+    const [recipes, setRecipes] = useState([]);
+    const [isLoading,setLoading] = useState(false);
     const options = {
         method: 'GET',
         url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
@@ -35,7 +28,7 @@ export default function ContentArea(){
           excludeIngredients: 'eggs',
           instructionsRequired: 'true',
           fillIngredients: 'false',
-          addRecipeInformation: 'false',
+          addRecipeInformation: 'true',
           addRecipeInstructions: 'false',
           addRecipeNutrition: 'false',
           maxReadyTime: '45',
@@ -51,11 +44,13 @@ export default function ContentArea(){
       };
 
 
-    async function handleClick() {
+    async function fetchRecipes() {
+      setRecipes([]);
+      setLoading(true);
         try {
             const response = await axios.request(options);
             console.log(response.data);
-            setRecipies(response.data.results);
+            setRecipes(response.data.results);
         } catch (error) {
             console.error(error);
         }
@@ -65,67 +60,51 @@ export default function ContentArea(){
       
 
     return (
-        <div className="grid grid-cols-1 items-start p-4 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {/* <Button onClick={handleClick}>Fetch Data</Button> */}
-            { subArray.map((recipie) => {
-                return (
-                    <Card className="w-full max-w-md mx-auto">
-                    <CardHeader>
-                      <CardTitle>Create project</CardTitle>
-                      <CardDescription>Deploy your new project in one-click.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <form>
-                        <div className="grid w-full items-center gap-4">
-                          <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="name">Name</Label>
-                            <Input id="name" placeholder="Name of your project" />
-                          </div>
-                          <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="framework">Framework</Label>
-                            <Select>
-                              <SelectTrigger id="framework">
-                                <SelectValue placeholder="Select" />
-                              </SelectTrigger>
-                              <SelectContent position="popper">
-                                <SelectItem value="next">Next.js</SelectItem>
-                                <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                                <SelectItem value="astro">Astro</SelectItem>
-                                <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-                      </form>
-                    </CardContent>
-                    <CardFooter className="flex justify-between">
-                      <Button variant="outline">Cancel</Button>
-                      <Button>Deploy</Button>
-                    </CardFooter>
-                  </Card>
-                )
-                
-            })}
-            {/* {recipies ?  (recipies.map((recipie) => {
-                return (
-                    <Card key={recipie} className="w-[300px]">
-                        <CardHeader className="p-0">
-                            <div className="w-full overflow-hidden">
-                                <img src={recipie.image} alt="House" className="w-full h-full object-cover" />
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            
-                        </CardContent>
-                        <CardFooter className="flex justify-between">
-                            <Button variant="outline">Cancel</Button>
-                            <Button>Deploy</Button>
-                        </CardFooter>
-                    </Card>
+      <div className="container mx-auto p-4">
+        <div className="mb-4">
+          <Button onClick={fetchRecipes}>
+            Fetch Recipes
+          </Button>
+        </div>
             
-                )
-            })) : <div>Loading...</div>
-            } */}
+        <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
+            { recipes && recipes.map((recipe, index) => {
+                return (
+                    <Card key={index} className="h-full w-full max-w-md mx-auto overflow-hidden">
+                      <CardHeader className="p-0">
+                        <img className="w-full h-48 object-cover" src={recipe.image} alt={recipe.title}></img>
+                      </CardHeader>
+                      <CardContent className="flex flex-col gap-2">
+                      <div className="flex flex-row items-center justify-start gap-4 text-sm text-muted-foreground"> {/* Style container */}
+                        <div className="flex items-center gap-1" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
+                            <Check className="h-5 w-5 text-green-600"/>
+                            <p>{recipe.usedIngredientCount} <span className="sr-only">used</span></p>
+                        </div>
+
+                        <div className="flex items-center gap-1" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>
+                            <X className="h-5 w-5 text-red-600"/>
+                            <p>{recipe.missedIngredientCount} <span className="sr-only">missed</span></p>
+                        </div>
+                        <div className="flex items-center gap-1" aria-label={`Ready in ${recipe.readyInMinutes} minutes`}>
+                            <Clock4 className="h-4 w-4"/>
+                            <p>{recipe.readyInMinutes} <span className="sr-only">min</span></p>
+                        </div>
+                      </div>
+                        <CardTitle>{recipe.title}</CardTitle>
+                        <CardDescription>
+                          <p className="line-clamp-3" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }} />
+                        </CardDescription>
+                      </CardContent>
+                      <CardFooter className="flex justify-between">
+                        <Button variant="outline">Nutrition</Button>
+                        <Button>Cook it</Button>
+                      </CardFooter>
+                  </Card>
+                )})
+            }
+            {recipes.length === 0 && (
+              <div className="coll-span-full text-center text-muted-foreground">No recipes found</div>)}
+        </div>
         </div>
     )
 }

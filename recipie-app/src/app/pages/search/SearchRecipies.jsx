@@ -3,7 +3,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import Header from "../../my_components/header"
 import ContentArea from "./ContentArea"
 import SidebarArea from "./SidebarArea"
-
+import SearchTitle from "./SearchTitle"
 
 
 export default function SearchRecipies(){
@@ -20,12 +20,12 @@ export default function SearchRecipies(){
                 </div>
               </div>
               <div className="row-start-1 row-span-1 border-b border-gray-950/10 md:col-start-2">
-                <div className="flex flex-row p-4">
-                    VAR2
+                <div className="block h-full w-full">
+                    <SearchTitle/>
                 </div>
               </div>
               <div className="row-start-2 row-span-1 border-gray-950/10 overflow-auto">
-                <div className="flex flex-col ">
+                <div className="block h-full w-full">
                   <ContentArea/>
                 </div>
               </div>

@@ -90,7 +90,7 @@ export default function ContentArea(){
                             <p>{Math.floor(recipe.readyInMinutes / 60)}h {Math.floor(recipe.readyInMinutes % 60)}min <span className="sr-only">min</span></p>
                         </div>
                       </div>
-                        <CardTitle>{recipe.title}</CardTitle>
+                        <CardTitle className="leading-6">{recipe.title}</CardTitle>
                         <CardDescription>
                           <p className="line-clamp-3" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }} />
                         </CardDescription>

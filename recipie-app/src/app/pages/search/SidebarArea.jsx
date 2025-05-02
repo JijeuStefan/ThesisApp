@@ -95,11 +95,10 @@ export default function SidebarArea(){
                                             <SidebarMenuSubItem asChild>
                                                 {intolerances && intolerances.map((food) => {
                                                     return (
-                                                        <div key={food} className="flex gap-2">
+                                                        <div key={food} className="flex items-center gap-2">
                                                             <Checkbox id={food} />
                                                             <label
                                                             htmlFor={food}
-                                                            className=""
                                                             >
                                                             {food}
                                                             </label>

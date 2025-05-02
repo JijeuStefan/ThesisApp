@@ -30,7 +30,7 @@ export default function ContentArea(){
           fillIngredients: 'false',
           addRecipeInformation: 'true',
           addRecipeInstructions: 'false',
-          addRecipeNutrition: 'false',
+          addRecipeNutrition: 'true',
           maxReadyTime: '45',
           ignorePantry: 'true',
           sort: 'max-used-ingredients',
@@ -76,18 +76,18 @@ export default function ContentArea(){
                       </CardHeader>
                       <CardContent className="flex flex-col gap-2">
                       <div className="flex flex-row items-center justify-start gap-4 text-sm text-muted-foreground"> {/* Style container */}
-                        <div className="flex items-center gap-1" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
+                        <div className="flex items-center" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
                             <Check className="h-5 w-5 text-green-600"/>
                             <p>{recipe.usedIngredientCount} <span className="sr-only">used</span></p>
                         </div>
 
-                        <div className="flex items-center gap-1" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>
+                        <div className="flex items-center" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>
                             <X className="h-5 w-5 text-red-600"/>
                             <p>{recipe.missedIngredientCount} <span className="sr-only">missed</span></p>
                         </div>
                         <div className="flex items-center gap-1" aria-label={`Ready in ${recipe.readyInMinutes} minutes`}>
                             <Clock4 className="h-4 w-4"/>
-                            <p>{recipe.readyInMinutes} <span className="sr-only">min</span></p>
+                            <p>{Math.floor(recipe.readyInMinutes / 60)}h {Math.floor(recipe.readyInMinutes % 60)}min <span className="sr-only">min</span></p>
                         </div>
                       </div>
                         <CardTitle>{recipe.title}</CardTitle>

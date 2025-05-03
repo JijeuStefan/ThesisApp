@@ -31,7 +31,6 @@ export default function SearchRecipies(){
               </div>
             </div>
           </main>
-
         </div>
     )
 }

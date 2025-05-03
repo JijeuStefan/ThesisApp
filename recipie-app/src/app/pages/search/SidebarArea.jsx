@@ -36,6 +36,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 export default function SidebarArea(){
     const intolerances = ["dairy", "egg", "gluten", "peanut", "sesame", "seafood", "shellfish", "soy", "sulfite", "tree nut", "wheat"];
+    const diet = ["pescetarian", "lacto vegetarian", "ovo vegetarian", "vegan", "paleo", "primal", "vegetarian"];
 
     return (
         <Sidebar>
@@ -44,6 +45,20 @@ export default function SidebarArea(){
                     <SidebarGroupLabel>Options</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
+                            <Collapsible defaultOpen className="group/collapsible">
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton>Time</SidebarMenuButton>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub>
+                                            <SidebarMenuSubItem asChild>
+                                                <Input id="max-ready-time" type="number" placeholder="Max ready time" min="5" step="5"></Input>
+                                            </SidebarMenuSubItem>
+                                        </SidebarMenuSub>
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
                             <Collapsible defaultOpen className="group/collapsible">
                                 <SidebarMenuItem>
                                     <CollapsibleTrigger asChild>
@@ -71,13 +86,11 @@ export default function SidebarArea(){
                                                         <SelectValue placeholder="Type" />
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectItem value="pescetarian">pescetarian</SelectItem>
-                                                        <SelectItem value="lacto vegetarian">lacto vegetarian</SelectItem>
-                                                        <SelectItem value="ovo vegetarian">ovo vegetarian</SelectItem>
-                                                        <SelectItem value="vegan">vegan</SelectItem>
-                                                        <SelectItem value="paleo">paleo</SelectItem>
-                                                        <SelectItem value="primal">primal</SelectItem>
-                                                        <SelectItem value="vegetarian">vegetarian</SelectItem>
+                                                        {diet && diet.map((item) => {
+                                                            return (
+                                                                <SelectItem value={item}>{item}</SelectItem>
+                                                            )
+                                                        })}
                                                     </SelectContent>
                                                 </Select>
                                             </SidebarMenuSubItem>

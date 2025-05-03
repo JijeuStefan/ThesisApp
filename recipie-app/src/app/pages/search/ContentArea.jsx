@@ -55,7 +55,7 @@ export default function ContentArea({recipes}){
                 )})
             }
             {recipes.length === 0 && (
-              <div className="coll-span-full text-center text-muted-foreground">No recipes found</div>)}
+              <div className="coll-span-full text-start text-muted-foreground">No recipes found</div>)}
         </div>
         </div>
     )

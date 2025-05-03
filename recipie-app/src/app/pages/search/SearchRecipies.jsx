@@ -30,12 +30,12 @@ export default function SearchRecipies(){
       setSearchParams((prev) => ({...prev,[param]:newValue}));
     });
 
-    const handleIntoeranceChange = ((intolerance, checked) =>{
+    const handleIntoleranceChange = ((intolerance, checked) =>{
       setSearchParams((prev) =>({
         ...prev,
         intolerances: checked ?
         [...prev.intolerances, intolerance] :
-        prev.intolerances.filter((item) => {return item!== intolerance})
+        prev.intolerances.filter((item) => item !== intolerance)
       }));
     });
 
@@ -102,7 +102,7 @@ export default function SearchRecipies(){
                     <SidebarArea
                       searchParams={searchParams}
                       onParamChange={handleParamChange}
-                      onIntoleranceChange={handleIntoeranceChange}
+                      onIntoleranceChange={handleIntoleranceChange}
                     />
                   </SidebarProvider>
                 </div>

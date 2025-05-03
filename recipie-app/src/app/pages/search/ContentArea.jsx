@@ -1,5 +1,3 @@
-import axios from "axios";
-import { useState } from "react";
 import DOMPurify from 'dompurify';
 import { Check, X, Clock4 } from 'lucide-react';
 
@@ -14,57 +12,9 @@ import {
 } from "@/components/ui/card"
 
 
-export default function ContentArea(){
-    const [recipes, setRecipes] = useState([]);
-    const options = {
-        method: 'GET',
-        url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
-        params: {
-          query: 'side salad',
-          diet: 'vegetarian',
-          intolerances: 'gluten',
-          includeIngredients: 'cheese,nuts',
-          excludeIngredients: 'eggs',
-          instructionsRequired: 'true',
-          fillIngredients: 'false',
-          addRecipeInformation: 'true',
-          addRecipeInstructions: 'false',
-          addRecipeNutrition: 'true',
-          maxReadyTime: '45',
-          ignorePantry: 'true',
-          sort: 'max-used-ingredients',
-          offset: '0',
-          number: '10'
-        },
-        headers: {
-          'x-rapidapi-key': ``,
-          'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-        }
-      };
-
-
-    async function fetchRecipes() {
-      setRecipes([]);
-        try {
-            const response = await axios.request(options);
-            console.log(response.data);
-            setRecipes(response.data.results);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-
-      
-
+export default function ContentArea({recipes}){
     return (
-      <div className="container mx-auto p-4">
-        <div className="mb-4">
-          <Button onClick={fetchRecipes}>
-            Fetch Recipes
-          </Button>
-        </div>
-            
+      <div className="container mx-auto p-4">     
         <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
             { recipes && recipes.map((recipe, index) => {
                 return (
@@ -91,8 +41,6 @@ export default function ContentArea(){
                               <p>{Math.floor(recipe.readyInMinutes / 60)}h {Math.floor(recipe.readyInMinutes % 60)}min <span className="sr-only">min</span></p>
                           </div>}
                         </div>
-                       
-                  
                       </div>
                         <CardTitle className="leading-6 text-justify">{recipe.title}</CardTitle>
                         <CardDescription>

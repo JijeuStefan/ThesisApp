@@ -7,9 +7,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarMenuAction,
     SidebarMenuSub,
-    SidebarMenuSubButton,
     SidebarMenuSubItem
   } from "@/components/ui/sidebar"
 
@@ -34,7 +32,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 
 
-export default function SidebarArea(){
+export default function SidebarArea({searchParams, onParamChange, onIntoleranceChange}){
     const intolerances = ["dairy", "egg", "gluten", "peanut", "sesame", "seafood", "shellfish", "soy", "sulfite", "tree nut", "wheat"];
     const diet = ["pescetarian", "lacto vegetarian", "ovo vegetarian", "vegan", "paleo", "primal", "vegetarian"];
 
@@ -52,8 +50,15 @@ export default function SidebarArea(){
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
                                         <SidebarMenuSub>
-                                            <SidebarMenuSubItem asChild>
-                                                <Input id="max-ready-time" type="number" placeholder="Max ready time" min="5" step="5"></Input>
+                                            <SidebarMenuSubItem className="flex items-center gap-2 p-0.5">
+                                                <Input 
+                                                type="number" 
+                                                placeholder="Time limit (mins)" 
+                                                min="5" 
+                                                step="5"
+                                                value={searchParams.maxReadyTime}
+                                                onChange={(e) => {onParamChange("maxReadyTime", e.target.value)}}>
+                                                </Input>
                                             </SidebarMenuSubItem>
                                         </SidebarMenuSub>
                                     </CollapsibleContent>
@@ -66,8 +71,13 @@ export default function SidebarArea(){
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
                                         <SidebarMenuSub>
-                                            <SidebarMenuSubItem asChild>
-                                                <Input type="text" placeholder="e.g: indian,korean"></Input>
+                                            <SidebarMenuSubItem className="flex items-center gap-2 p-0.5">
+                                                <Input 
+                                                type="text" 
+                                                placeholder="e.g: indian,korean"
+                                                value={searchParams.cuisine}
+                                                onChange={(e) => {onParamChange("cuisine", e.target.value)}}>                                                    
+                                                </Input>
                                             </SidebarMenuSubItem>
                                         </SidebarMenuSub>
                                     </CollapsibleContent>
@@ -80,15 +90,20 @@ export default function SidebarArea(){
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
                                         <SidebarMenuSub>
-                                            <SidebarMenuSubItem asChild>
-                                                <Select>
+                                            <SidebarMenuSubItem className="flex items-center gap-2 p-0.5">
+                                                <Select
+                                                    value={searchParams.diet}
+                                                    onValueChange={(value) => onParamChange("diet", value === "none" ? "" : value)}>
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Type" />
                                                     </SelectTrigger>
                                                     <SelectContent>
+                                                        <SelectItem value="none">-- None --</SelectItem> 
                                                         {diet && diet.map((item) => {
                                                             return (
-                                                                <SelectItem value={item}>{item}</SelectItem>
+                                                                <SelectItem 
+                                                                key={item}
+                                                                value={item}>{item}</SelectItem>
                                                             )
                                                         })}
                                                     </SelectContent>
@@ -104,21 +119,24 @@ export default function SidebarArea(){
                                         <SidebarMenuButton>Intolerances</SidebarMenuButton>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
-                                        <SidebarMenuSub>
-                                            <SidebarMenuSubItem asChild>
-                                                {intolerances && intolerances.map((food) => {
-                                                    return (
-                                                        <div key={food} className="flex items-center gap-2">
-                                                            <Checkbox id={food} />
-                                                            <label
-                                                            htmlFor={food}
-                                                            >
-                                                            {food}
-                                                            </label>
-                                                        </div>      
-                                                    )
-                                                })}
-                                            </SidebarMenuSubItem>
+                                        <SidebarMenuSub>                                 
+                                            {intolerances.map((food) => (
+                                                <SidebarMenuSubItem
+                                                    key={food}
+                                                    className="flex items-center gap-2 p-0.5"
+                                                >
+                                                    <Checkbox
+                                                    id={food}
+                                                    checked={searchParams.intolerances.includes(food)}
+                                                    onCheckedChange={(checked) =>
+                                                        onIntoleranceChange(food, checked)
+                                                    }
+                                                    />
+                                                    <label htmlFor={food} className="text-sm font-normal cursor-pointer"> 
+                                                    {food}
+                                                    </label>
+                                                </SidebarMenuSubItem>
+                                            ))}                                           
                                         </SidebarMenuSub>
                                     </CollapsibleContent>
                                 </SidebarMenuItem>
@@ -130,8 +148,13 @@ export default function SidebarArea(){
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
                                         <SidebarMenuSub>
-                                            <SidebarMenuSubItem asChild>
-                                                <Input type="text" placeholder="e.g: eggs,milk"></Input>
+                                            <SidebarMenuSubItem className="flex items-center gap-2 p-0.5">
+                                                <Input 
+                                                type="text" 
+                                                placeholder="e.g: eggs,milk"
+                                                value={searchParams.excludeIngredients}
+                                                onChange={(e) => {onParamChange("excludeIngredients", e.target.value)}}
+                                                ></Input>
                                             </SidebarMenuSubItem>
                                         </SidebarMenuSub>
                                     </CollapsibleContent>

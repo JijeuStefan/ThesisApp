@@ -1,12 +1,96 @@
+import axios from "axios"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
 import Header from "../../my_components/header"
 import ContentArea from "./ContentArea"
 import SidebarArea from "./SidebarArea"
 import SearchTitle from "./SearchTitle"
+import { useState } from "react"
+
+const defaultParams = {
+  query: '',
+  cuisine: '',
+  diet: '',
+  intolerances: [],
+  includeIngredients: '',
+  excludeIngredients: '',
+  maxReadyTime: ''
+}
 
 
 export default function SearchRecipies(){
+    const [searchParams, setSearchParams] = useState(defaultParams);
+    const [recipes, setRecipes] = useState([]);
+
+    const handleQueryChange = ((newQuery) => {
+      setSearchParams((prev) => ({...prev,query:newQuery}));
+    });
+
+    const handleParamChange  = ((param, newValue) => {
+      setSearchParams((prev) => ({...prev,[param]:newValue}));
+    });
+
+    const handleIntoeranceChange = ((intolerance, checked) =>{
+      setSearchParams((prev) =>({
+        ...prev,
+        intolerances: checked ?
+        [...prev.intolerances, intolerance] :
+        prev.intolerances.filter((item) => {return item!== intolerance})
+      }));
+    });
+
+
+    async function fetchRecipes() {
+      setRecipes([]);
+
+      const apiParams = {
+        instructionsRequired: 'false',
+        fillIngredients: 'false',
+        addRecipeInformation: 'true',
+        addRecipeInstructions: 'false',
+        addRecipeNutrition: 'false',
+        ignorePantry: 'true',
+        sort: 'random',
+        offset: '0',
+        number: '12',
+        query: searchParams.query,
+        ...(searchParams.cuisine && {cuisine: searchParams.cuisine}),
+        ...(searchParams.diet && {diet: searchParams.diet}),
+        ...(searchParams.intolerances.length > 0 && {intolerances: searchParams.intolerances.join(',')}),
+        ...(searchParams.includeIngredients && {includeIngredients: searchParams.includeIngredients}),
+        ...(searchParams.excludeIngredients && {excludeIngredients: searchParams.excludeIngredients}),
+        ...(searchParams.maxReadyTime && {maxReadyTime: searchParams.maxReadyTime})
+      };
+
+
+      Object.keys(apiParams).forEach((key) => {
+        if ( !apiParams[key] || (Array.isArray(apiParams[key] && apiParams[key].length === 0))){
+          delete apiParams[key];
+        }
+      });
+
+      const options = {
+        method: 'GET',
+        url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
+        params: apiParams,
+        headers: {
+          'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY || "",
+          'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+        }
+      };
+
+      try {
+          const response = await axios.request(options);
+          console.log(response.data);
+          console.log(apiParams);
+          setRecipes(response.data.results);
+      } catch (error) {
+          console.error(error);
+      }
+    }
+
+
+
     return (
         <div className="flex flex-col min-h-screen bg-background">
           <Header />
@@ -15,18 +99,28 @@ export default function SearchRecipies(){
               <div className="row-start-1 row-span-2 hidden shrink-0 border-r border-gray-950/10 md:sticky md:block md:top-14 h-[calc(100vh-3.5rem)]">
                 <div className="block h-full w-full">
                   <SidebarProvider>
-                    <SidebarArea/>
+                    <SidebarArea
+                      searchParams={searchParams}
+                      onParamChange={handleParamChange}
+                      onIntoleranceChange={handleIntoeranceChange}
+                    />
                   </SidebarProvider>
                 </div>
               </div>
               <div className="row-start-1 row-span-1 border-b border-gray-950/10 md:col-start-2">
                 <div className="block h-full w-full">
-                    <SearchTitle/>
+                    <SearchTitle
+                      query={searchParams.query}
+                      onQueryChange={handleQueryChange}
+                      fetchRecipes={fetchRecipes}
+                    />
                 </div>
               </div>
               <div className="row-start-2 row-span-1 border-gray-950/10 overflow-auto">
                 <div className="block h-full w-full">
-                  <ContentArea/>
+                  <ContentArea
+                    recipes={recipes}
+                  />
                 </div>
               </div>
             </div>

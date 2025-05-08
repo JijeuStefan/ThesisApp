@@ -1,11 +1,11 @@
-import axios from "axios"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import axios from "axios";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-import Header from "../../my_components/header"
-import ContentArea from "./ContentArea"
-import SidebarArea from "./SidebarArea"
-import SearchTitle from "./SearchTitle"
-import { useState } from "react"
+import Header from "../../my_components/header";
+import ContentArea from "./ContentArea";
+import SidebarArea from "./sidebar/SidebarArea";
+import SearchTitle from "./SearchTitle";
+import { useState } from "react";
 
 const defaultParams = {
   query: '',

@@ -1,4 +1,6 @@
+import { useIngredientInput } from './useIngredientInput';
 import { Minus } from 'lucide-react';
+
 
 import {
     Sidebar,
@@ -33,40 +35,56 @@ import {
 
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { useState } from 'react';
 
 const intolerances = ["dairy", "egg", "gluten", "peanut", "sesame", "seafood", "shellfish", "soy", "sulfite", "tree nut", "wheat"];
 const diet = ["pescetarian", "lacto vegetarian", "ovo vegetarian", "vegan", "paleo", "primal", "vegetarian"];
 
-export default function SidebarArea({searchParams, onParamChange, onIncludeIngredient, onExcludeIngredient, onIntoleranceChange}){
-    const [includenIngredient, setIncludeIngredient] = useState('');
-    const [excludeIngredient, setExcludeIngredient] = useState('');
 
-    const handleAddIncludeIngredient = () => {
-        if (includenIngredient.trim() !== ""){
-            if (!searchParams.includeIngredients.includes(includenIngredient)){
-                onIncludeIngredient(includenIngredient, true);
-                setIncludeIngredient('');
-            }
-        }
+function debounce(func, delay){
+    let timeout;
+    return function(...args){
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), delay);
     }
+}
+
+export default function SidebarArea({searchParams, onParamChange, onIncludeIngredient, onExcludeIngredient, onIntoleranceChange}){
+    
+    const includeInput = useIngredientInput();
+    const excludeInput = useIngredientInput();
+    
+    const handleAddIncludeIngredient = () => {
+        const trimmedIngredient = includeInput.inputValue.trim();
+        if (trimmedIngredient !== "") {
+            if (!searchParams.includeIngredients.includes(trimmedIngredient)) {
+                onIncludeIngredient(trimmedIngredient, true);
+            }
+            includeInput.clearInput();
+        }
+    };
 
     const handleRemoveIncludeIngredient = (ingredient) => {
         onIncludeIngredient(ingredient, false);
-    }
+    };
 
+    
     const handleAddExcludeIngredient = () => {
-        if (excludeIngredient.trim() !== ""){
-            if (!searchParams.excludeIngredients.includes(excludeIngredient)){
-                onExcludeIngredient(excludeIngredient, true);
-                setExcludeIngredient('');
+        const trimmedIngredient = excludeInput.inputValue.itrim();
+        if (trimmedIngredient !== "") {
+            if (!searchParams.excludeIngredients.includes(trimmedIngredient)) {
+                onExcludeIngredient(trimmedIngredient, true);
             }
+            excludeInput.clearInput();
         }
-    }
+    };
 
     const handleRemoveExcludeIngredient = (ingredient) => {
         onExcludeIngredient(ingredient, false);
-    }
+    };
+
+
+
     return (
         <Sidebar>
             <SidebarContent>
@@ -86,16 +104,18 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                     <div className="flex flex-row items-center gap-1">
                                                         <Input 
                                                         list="includeIngredientsDataList"
-                                                        value={includenIngredient}
-                                                        onChange={(e)=> setIncludeIngredient(e.target.value)}
+                                                        value={includeInput.inputValue}
+                                                        onChange={includeInput.handleInputChange}
                                                         />
                                                         <datalist id="includeIngredientsDataList">
-                                                            <option value="Apple"/>
-                                                            <option value="Banana"/>
-                                                            <option value="Orange"/>
-                                                            <option value="Mango"/>
+                                                            {includeInput.suggestions.map((ingredient) =>{
+                                                                return(<option 
+                                                                    key={ingredient.id || ingredient.name} 
+                                                                    value={ingredient.name}>                                                                      
+                                                                    </option>)
+                                                            })}
                                                         </datalist>
-                                                        <Button onClick={() => handleAddIncludeIngredient()}>Add</Button>
+                                                        <Button onClick={handleAddIncludeIngredient}>Add</Button>
                                                     </div>
                                                     <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
                                                         {searchParams.includeIngredients.length > 0  && searchParams.includeIngredients.map((ingredient) =>{
@@ -128,16 +148,18 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                     <div className="flex flex-row items-center gap-1">
                                                         <Input 
                                                         list="exludeIngredientsDataList"
-                                                        value={excludeIngredient}
-                                                        onChange={(e)=> setExcludeIngredient(e.target.value)}
+                                                        value={excludeInput.inputValue}
+                                                        onChange={excludeInput.handleInputChange}
                                                         />
                                                         <datalist id="exludeIngredientsDataList">
-                                                            <option value="Apple"/>
-                                                            <option value="cinnamon"/>
-                                                            <option value="Orange"/>
-                                                            <option value="Mango"/>
+                                                            {excludeInput.suggestions.map((ingredient) =>{
+                                                                return(<option 
+                                                                    key={ingredient.id || ingredient.name} 
+                                                                    value={ingredient.name}>                                                                      
+                                                                    </option>)
+                                                            })}
                                                         </datalist>
-                                                        <Button onClick={() => handleAddExcludeIngredient()}>Add</Button>
+                                                        <Button onClick={handleAddExcludeIngredient}>Add</Button>
                                                     </div>
                                                     <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
                                                         {searchParams.excludeIngredients.length > 0  && searchParams.excludeIngredients.map((ingredient) =>{

@@ -12,8 +12,8 @@ const defaultParams = {
   cuisine: '',
   diet: '',
   intolerances: [],
-  includeIngredients: '',
-  excludeIngredients: '',
+  includeIngredients: [],
+  excludeIngredients: [],
   maxReadyTime: ''
 }
 
@@ -30,8 +30,26 @@ export default function SearchRecipies(){
       setSearchParams((prev) => ({...prev,[param]:newValue}));
     });
 
-    const handleIntoleranceChange = ((intolerance, checked) =>{
+    const handleIncludeIngredient = ((ingredient, include) =>{
       setSearchParams((prev) =>({
+        ...prev,
+        includeIngredients: include ?
+        [...prev.includeIngredients, ingredient] :
+        prev.includeIngredients.filter((item) => item != ingredient)
+      }))
+    })
+
+    const handleExcludeIngredient = ((ingredient, exclude) =>{
+      setSearchParams((prev) =>({
+        ...prev,
+        excludeIngredients: exclude ?
+        [...prev.excludeIngredients, ingredient] :
+        prev.excludeIngredients.filter((item) => item != ingredient)
+      }))
+    })
+
+    const handleIntoleranceChange = ((intolerance, checked) =>{
+      setSearchParams((prev) => ({
         ...prev,
         intolerances: checked ?
         [...prev.intolerances, intolerance] :
@@ -45,20 +63,20 @@ export default function SearchRecipies(){
 
       const apiParams = {
         instructionsRequired: 'false',
-        fillIngredients: 'false',
+        fillIngredients: 'true',
         addRecipeInformation: 'true',
         addRecipeInstructions: 'false',
         addRecipeNutrition: 'false',
         ignorePantry: 'true',
-        sort: 'random',
+        sort: searchParams.includeIngredients.length > 0 ? "max-used-ingredients" : "random",
         offset: '0',
-        number: '12',
+        number: '24',
         query: searchParams.query,
+        ...(searchParams.includeIngredients.length > 0 && {includeIngredients: searchParams.includeIngredients.join(',')}),
+        ...(searchParams.excludeIngredients.length > 0 && {excludeIngredients: searchParams.excludeIngredients.join(',')}),
         ...(searchParams.cuisine && {cuisine: searchParams.cuisine}),
         ...(searchParams.diet && {diet: searchParams.diet}),
         ...(searchParams.intolerances.length > 0 && {intolerances: searchParams.intolerances.join(',')}),
-        ...(searchParams.includeIngredients && {includeIngredients: searchParams.includeIngredients}),
-        ...(searchParams.excludeIngredients && {excludeIngredients: searchParams.excludeIngredients}),
         ...(searchParams.maxReadyTime && {maxReadyTime: searchParams.maxReadyTime})
       };
 
@@ -102,6 +120,8 @@ export default function SearchRecipies(){
                     <SidebarArea
                       searchParams={searchParams}
                       onParamChange={handleParamChange}
+                      onIncludeIngredient={handleIncludeIngredient}
+                      onExcludeIngredient={handleExcludeIngredient}
                       onIntoleranceChange={handleIntoleranceChange}
                     />
                   </SidebarProvider>

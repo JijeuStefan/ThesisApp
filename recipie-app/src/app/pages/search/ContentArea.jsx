@@ -25,16 +25,16 @@ export default function ContentArea({recipes}){
                       <CardContent className="flex flex-col gap-2">
                       <div className="flex flex-row items-center justify-between gap-4 text-sm text-muted-foreground"> {/* Style container */}
                         <div className="flex flex-row items-center gap-4">
-                            {recipe.usedIngredientCount && <div className="flex items-center" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
+                            {recipe.usedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
                                 <Check className="h-5 w-5 text-green-600"/>
                                 <p>{recipe.usedIngredientCount} <span className="sr-only">used</span></p>
                             </div>}
-
-                            {recipe.missedIngredientCount && <div className="flex items-center" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>
+                          
+                            {recipe.missedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>
                                 <X className="h-5 w-5 text-red-600"/>
                                 <p>{recipe.missedIngredientCount} <span className="sr-only">missed</span></p>
                             </div>}
-                          </div>
+                        </div>
                         <div className="flex flex-row items-center gap-4">
                           {recipe.readyInMinutes && <div className="flex items-center gap-1" aria-label={`Ready in ${recipe.readyInMinutes} minutes`}>
                               <Clock4 className="h-4 w-4"/>

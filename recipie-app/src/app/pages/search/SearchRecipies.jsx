@@ -140,6 +140,7 @@ export default function SearchRecipies(){
                 <div className="block h-full w-full">
                   <ContentArea
                     recipes={recipes}
+                    includeIngredients={searchParams.includeIngredients}
                   />
                 </div>
               </div>

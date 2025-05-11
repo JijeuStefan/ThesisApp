@@ -99,7 +99,7 @@ export default function Component({onUploadVisible}) {
               <Button
                 size="icon"
                 variant="ghost"
-                className="text-muted-foreground/80 hover:text-foreground -me-2 size-8 hover:bg-transparent"
+                className="text-muted-foreground/80 hover:text-destructive -me-2 size-8 hover:bg-transparent"
                 onClick={() => removeFile(file.id)}
                 aria-label="Remove file">
                 <XIcon aria-hidden="true" />
@@ -108,10 +108,17 @@ export default function Component({onUploadVisible}) {
           ))}
           {/* Remove all files button */}
           {files.length > 0 && (
-            <div>
-              <Button size="sm" variant="outline" onClick={clearFiles}>
-                Remove all files
-              </Button>
+            <div className="flex flex-row justify-between">
+              <div>
+                <Button size="sm" variant="outline" className="hover:text-destructive" onClick={clearFiles}>
+                  Remove Files
+                </Button>
+              </div>
+              <div>
+                <Button size="sm" variant="outline" className="hover:text-green-600">
+                  Upload Files
+                </Button>
+              </div>
             </div>
           )}
         </div>

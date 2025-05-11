@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card"
 
 
-export default function ContentArea({recipes}){
+export default function ContentArea({recipes, includeIngredients}){
     return (
       <div className="container mx-auto p-4">     
         <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -24,10 +24,11 @@ export default function ContentArea({recipes}){
                       </CardHeader>
                       <CardContent className="flex flex-col gap-2">
                       <div className="flex flex-row items-center justify-between gap-4 text-sm text-muted-foreground"> {/* Style container */}
-                        <div className="flex flex-row items-center gap-4">
+                        {includeIngredients.length > 0 && (
+                          <div className="flex flex-row items-center gap-4">
                             {recipe.usedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
                                 <Check className="h-5 w-5 text-green-600"/>
-                                <p>{recipe.usedIngredientCount} <span className="sr-only">used</span></p>
+                                <p>{includeIngredients.length - recipe.unusedIngredients.length} <span className="sr-only">used</span></p>
                             </div>}
                           
                             {recipe.missedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>
@@ -35,6 +36,7 @@ export default function ContentArea({recipes}){
                                 <p>{recipe.missedIngredientCount} <span className="sr-only">missed</span></p>
                             </div>}
                         </div>
+                        )}
                         <div className="flex flex-row items-center gap-4">
                           {recipe.readyInMinutes && <div className="flex items-center gap-1" aria-label={`Ready in ${recipe.readyInMinutes} minutes`}>
                               <Clock4 className="h-4 w-4"/>

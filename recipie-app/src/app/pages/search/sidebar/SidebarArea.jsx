@@ -109,8 +109,9 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                         </datalist>
                                                         <Button onClick={handleAddIncludeIngredient}>Add</Button>
                                                     </div>
-                                                    <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
-                                                        {searchParams.includeIngredients.length > 0  && searchParams.includeIngredients.map((ingredient) =>{
+                                                    {searchParams.includeIngredients.length > 0  && (
+                                                        <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
+                                                        {searchParams.includeIngredients.map((ingredient) =>{
                                                             return(<div key={ingredient} className="flex flex-row items-center justify-between text-sm py-1 px-2 rounded hover:bg-accent">
                                                                 <span>{ingredient}</span>
                                                                 <Button variant="ghost" 
@@ -121,7 +122,9 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                                 </Button>  
                                                             </div>)
                                                         })}  
-                                                    </div>                                                                                                     
+                                                    </div>
+                                                    )}
+                                                                                                                                                         
                                                 </div>
                                             </SidebarMenuSubItem>
                                         </SidebarMenuSub>
@@ -140,7 +143,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                     <div className="flex flex-row items-center gap-1">
                                                         <Input 
                                                         list="exludeIngredientsDataList"
-                                                        placeholder="e.g:milk"
+                                                        placeholder="e.g: milk"
                                                         value={excludeInput.inputValue}
                                                         onChange={excludeInput.handleInputChange}
                                                         />
@@ -154,8 +157,9 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                         </datalist>
                                                         <Button onClick={handleAddExcludeIngredient}>Add</Button>
                                                     </div>
-                                                    <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
-                                                        {searchParams.excludeIngredients.length > 0  && searchParams.excludeIngredients.map((ingredient) =>{
+                                                    {searchParams.excludeIngredients.length > 0 && (
+                                                        <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
+                                                        {searchParams.excludeIngredients.map((ingredient) =>{
                                                             return(<div key={ingredient} className="flex flex-row items-center justify-between text-sm py-1 px-2 rounded hover:bg-accent">
                                                                 <span>{ingredient}</span>
                                                                 <Button variant="ghost" 
@@ -166,7 +170,8 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                                 </Button>  
                                                             </div>)
                                                         })}  
-                                                    </div>                                                                                                     
+                                                    </div> 
+                                                    )}                                                                                                                                                     
                                                 </div>
                                             </SidebarMenuSubItem>
                                         </SidebarMenuSub>

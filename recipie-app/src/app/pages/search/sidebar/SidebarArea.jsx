@@ -40,15 +40,6 @@ const intolerances = ["dairy", "egg", "gluten", "peanut", "sesame", "seafood", "
 const diet = ["pescetarian", "lacto vegetarian", "ovo vegetarian", "vegan", "paleo", "primal", "vegetarian"];
 
 
-function debounce(func, delay){
-    let timeout;
-    return function(...args){
-        const context = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(context, args), delay);
-    }
-}
-
 export default function SidebarArea({searchParams, onParamChange, onIncludeIngredient, onExcludeIngredient, onIntoleranceChange}){
     
     const includeInput = useIngredientInput();
@@ -70,7 +61,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
 
     
     const handleAddExcludeIngredient = () => {
-        const trimmedIngredient = excludeInput.inputValue.itrim();
+        const trimmedIngredient = excludeInput.inputValue.trim();
         if (trimmedIngredient !== "") {
             if (!searchParams.excludeIngredients.includes(trimmedIngredient)) {
                 onExcludeIngredient(trimmedIngredient, true);
@@ -95,7 +86,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                             <Collapsible defaultOpen className="group/collapsible">
                                 <SidebarMenuItem>
                                     <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton>Inlude Ingredients</SidebarMenuButton>
+                                        <SidebarMenuButton>Include Ingredients</SidebarMenuButton>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
                                         <SidebarMenuSub>
@@ -104,6 +95,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                     <div className="flex flex-row items-center gap-1">
                                                         <Input 
                                                         list="includeIngredientsDataList"
+                                                        placeholder="e.g: eggs"
                                                         value={includeInput.inputValue}
                                                         onChange={includeInput.handleInputChange}
                                                         />
@@ -148,6 +140,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                     <div className="flex flex-row items-center gap-1">
                                                         <Input 
                                                         list="exludeIngredientsDataList"
+                                                        placeholder="e.g:milk"
                                                         value={excludeInput.inputValue}
                                                         onChange={excludeInput.handleInputChange}
                                                         />

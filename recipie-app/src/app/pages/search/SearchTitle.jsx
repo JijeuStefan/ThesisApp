@@ -2,7 +2,6 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Component from "@/components/comp-547"
 import { useState } from "react"
-import { X } from 'lucide-react';
 
 export default function SearchTitle({query,onQueryChange,fetchRecipes}){
     const [uploadVisible, setUploadVisible] = useState(false);
@@ -24,9 +23,9 @@ export default function SearchTitle({query,onQueryChange,fetchRecipes}){
             <Button onClick={fetchRecipes}>Search</Button>
             <Button onClick={() => setUploadVisible(true)}>Upload</Button>
         </div>
-            {uploadVisible && ( // Conditionally render the modal
-                <div id="fileupload" className="fixed z-30 inset-0 flex justify-center items-center mt-14 p-10 bg-gray-600/65 backdrop-blur-sm">
-                    <div className="flex flex-col w-1/2 h-full justify-center items-center">
+            {uploadVisible && (
+                <div id="fileupload" className="flex fixed z-30 inset-0 justify-center items-center mt-14 bg-gray-600/65 backdrop-blur-sm">
+                    <div className="flex flex-col justify-center items-center">
                         <Component onUploadVisible={handleUploadVisible}/>
                     </div>
                 </div>

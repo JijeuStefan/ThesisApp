@@ -66,7 +66,7 @@ export default function SearchRecipies(){
         fillIngredients: 'true',
         addRecipeInformation: 'true',
         addRecipeInstructions: 'false',
-        addRecipeNutrition: 'false',
+        addRecipeNutrition: 'true',
         ignorePantry: 'true',
         sort: searchParams.includeIngredients.length > 0 ? "max-used-ingredients" : "random",
         offset: '0',

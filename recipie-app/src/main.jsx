@@ -1,10 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import './index.css'
-import SearchRecipies from './app/pages/search/SearchRecipies.jsx'
+import App from './App'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <SearchRecipies />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StrictMode>,
 )

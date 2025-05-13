@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MyPieChart from '@/app/my_components/MyPieChart';
 
 
@@ -25,6 +26,11 @@ function formatNutrition(nutrition){
 
 export default function ContentArea({recipes, includeIngredients}){
     const [nutritionVisible, setNutritionVisible] = useState({});
+    const navigate = useNavigate();
+
+    const goToRecipe = (id) =>{
+      navigate(`/recipe/${id}`)
+    }
 
     const handleSetNutrition = (index) => {
       setNutritionVisible((prev) =>({
@@ -68,7 +74,6 @@ export default function ContentArea({recipes, includeIngredients}){
                         <CardDescription>
                           {!nutritionVisible[index] ? (
                             <p className="line-clamp-3 text-justify" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }} />
-
                           ) : (
                             <MyPieChart 
                             title="Nutrition"
@@ -79,11 +84,11 @@ export default function ContentArea({recipes, includeIngredients}){
                           )}
                         </CardDescription>
                       </CardContent>
-                      <CardFooter className="flex justify-between">
+                      <CardFooter className="flex justify-between gap-2">
                         <Button variant="outline"
                           onClick={() => handleSetNutrition(index)}
                         >{nutritionVisible[index] ? "Description" : "Nutrition"}</Button>
-                        <Button>Cook it</Button>
+                        <Button onClick={() => goToRecipe(recipe.id)}>Cook it</Button>
                       </CardFooter>
                   </Card>
                 )})

@@ -18,7 +18,7 @@ function createConfig(toolTipLabel, items){
     let config = {};
     config[toolTipLabel] = {label: toolTipLabel};
     items.forEach(element => {
-        config[element.key] = {label: element.key, value:element.value, color: element.color}
+        config[element.key] = {label: element.key, color: element.color}
     });
     return config;
 }
@@ -53,8 +53,7 @@ export default function NutritionPieChart({title, desc, toolTipLabel, listLabel,
                         className="fill-background"
                         stroke="none"
                         fontSize={12}
-                        formatter={(value) =>
-                        chartConfig[value]?.label
+                        formatter={(value) =>chartConfig[value]?.label
                         }
                     />
                     </Pie>

@@ -110,11 +110,11 @@ export default function SearchRecipies(){
 
 
     return (
-        <div className="flex flex-col min-h-screen bg-background">
+        <div className="flex flex-col min-h-screen font-inter bg-background">
           <Header />
-          <main className="flex-grow font-inter">
-            <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] h-full md:grid-cols-[240px_minmax(0,1fr)]">
-              <div className="row-start-1 row-span-2 hidden shrink-0 border-r border-gray-950/10 md:sticky md:block md:top-14 h-[calc(100vh-3.5rem)]">
+          <main className="flex-grow">
+            <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] md:grid-cols-[240px_minmax(0,1fr)]">
+              <div className="row-start-1 row-span-2 hidden shrink-0 md:border-r md:border-gray-950/10 md:sticky md:block h-[calc(100vh-3.5rem)]">
                 <div className="block h-full w-full">
                   <SidebarProvider>
                     <SidebarArea

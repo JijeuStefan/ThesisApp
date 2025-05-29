@@ -29,6 +29,8 @@ export default function RecipePage(){
     const [recipe, setRecipe] = useState({});
     const { id } = useParams();
 
+    const navList = ["Summary", "Time", "Ingredients", "Instructions", "Nutrition"];
+
     useEffect(() =>{
         const fetchData = async() => {
             const options = {
@@ -70,14 +72,14 @@ export default function RecipePage(){
                     </div>
                     <div className="flex flex-row gap-4">
                         <div className='flex flex-col w-full gap-16 md:w-4/5'>
-                            <div id="summary" className='flex flex-col gap-2 scroll-mt-[60px]'>
+                            <div id="Summary" className='flex flex-col gap-2 scroll-mt-[60px]'>
                                 <p className='inline-flex text-4xl font-bold'>{recipe.title}</p>
                                 <div className='flex flex-col gap-2'>
                                     <img className='rounded-md w-full max-h-[400px] object-cover' src={recipe.image}></img>
                                     <p className='text-justify' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }}/>
                                 </div>
                             </div>
-                            <div id="time" className="flex flex-col scroll-mt-[60px]">
+                            <div id="Time" className="flex flex-col scroll-mt-[60px]">
                                 <div className="flex flex-col gap-2">
                                     <p className='inline-flex text-2xl font-bold'>Time</p>
                                     <div className="flex flex-row items-center justify-around gap-2 p-4 border rounded-sm border-black">
@@ -100,7 +102,7 @@ export default function RecipePage(){
                                     </div>
                                 </div>
                             </div>
-                            <div id="ingredients" className="flex flex-col scroll-mt-[60px]">
+                            <div id="Ingredients" className="flex flex-col scroll-mt-[60px]">
                                 <div className="flex flex-col gap-2">
                                     <p className='inline-flex text-2xl font-bold'>Ingredients</p>
                                     <div>
@@ -112,7 +114,7 @@ export default function RecipePage(){
                                     </div>
                                 </div>
                             </div>
-                            <div id="instructions" className="flex flex-col scroll-mt-[60px]">
+                            <div id="Instructions" className="flex flex-col scroll-mt-[60px]">
                                 <div className="flex flex-col gap-2">
                                     <p className="inline-flex text-2xl font-bold">Instructions</p>
                                     <div className='flex flex-col gap-6'>
@@ -120,7 +122,7 @@ export default function RecipePage(){
                                     </div>
                                 </div>
                             </div>
-                            <div id="nutrition" className='flex flex-col scroll-mt-[60px]'>
+                            <div id="Nutrition" className='flex flex-col scroll-mt-[60px]'>
                                 <div className='flex flex-col gap-2'>
                                     <p className="inline-flex text-2xl font-bold">Nutrition</p>
                                     <div className='flex flex-col gap-2 p-4 border rounded-sm border-black'>
@@ -147,50 +149,19 @@ export default function RecipePage(){
                                 </div>
                             </div>    
                         </div>
-                        <div id="navigation" className='hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-1/5 md:sticky md:block '>
+                        <div id="Navigation" className='hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-1/5 md:sticky md:block '>
                             <div className="flex flex-col h-full w-full justify-center items-center gap-2 overflow-auto">
                                 <p className="text-lg font-semibold text-gray-700 mb-2">Navigation</p>
                                 <ul className="flex flex-col gap-3 text-gray-600">
-                                    <li>
-                                        <a
-                                        href="#summary"
-                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
-                                        >
-                                        Summary
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                        href="#time"
-                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
-                                        >
-                                        Time
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                        href="#ingredients"
-                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
-                                        >
-                                        Ingredients
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                        href="#instructions"
-                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
-                                        >
-                                        Instructions
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                        href="#nutrition"
-                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
-                                        >
-                                        Nutrition
-                                        </a>
-                                    </li>
+                                    {navList.map((item, index) => (
+                                        <li key={index}>
+                                            <a
+                                            href={`#${item}`}
+                                            className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
+                                            >{item}
+                                            </a>
+                                        </li>
+                                    ))}                                    
                                 </ul>                            
                             </div>
                         </div>  

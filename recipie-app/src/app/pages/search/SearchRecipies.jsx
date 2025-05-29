@@ -113,7 +113,7 @@ export default function SearchRecipies(){
           <Header />
           <main className="flex-grow">
             <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] md:grid-cols-[240px_minmax(0,1fr)]">
-              <div className="row-start-1 row-span-2 hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] md:border-r md:border-gray-950/10 md:sticky md:block">
+              <div className="row-start-1 row-span-2 hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] md:sticky md:block md:border-r md:border-gray-950/10">
                 <div className="block h-full w-full">
                   <SidebarProvider>
                     <SidebarArea

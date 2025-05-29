@@ -13,6 +13,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import MyTable from '@/app/my_components/MyTable';
 
 function formatNutrition(nutrition){
     if (!nutrition) return [];
@@ -53,7 +54,7 @@ export default function RecipePage(){
         <div className="flex flex-col min-h-screen font-inter bg-background">
             <Header/>
             <main className="flex-grow">
-                <div className='flex flex-col gap-4 m-16'>
+                <div className='flex flex-col gap-4 p-16'>
                     <div className='inline-flex'>
                         <Breadcrumb>
                             <BreadcrumbList>
@@ -68,15 +69,15 @@ export default function RecipePage(){
                         </Breadcrumb>
                     </div>
                     <div className="flex flex-row gap-4">
-                        <div className='flex flex-col w-full gap-16 md:w-2/3'>
-                            <div id="summary" className='flex flex-col gap-2'>
+                        <div className='flex flex-col w-full gap-16 md:w-4/5'>
+                            <div id="summary" className='flex flex-col gap-2 scroll-mt-[60px]'>
                                 <p className='inline-flex text-4xl font-bold'>{recipe.title}</p>
                                 <div className='flex flex-col gap-2'>
                                     <img className='rounded-md w-full max-h-[400px] object-cover' src={recipe.image}></img>
                                     <p className='text-justify' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }}/>
                                 </div>
                             </div>
-                            <div id="time" className="flex flex-col">
+                            <div id="time" className="flex flex-col scroll-mt-[60px]">
                                 <div className="flex flex-col gap-2">
                                     <p className='inline-flex text-2xl font-bold'>Time</p>
                                     <div className="flex flex-row items-center justify-around gap-2 p-4 border rounded-sm border-black">
@@ -99,7 +100,7 @@ export default function RecipePage(){
                                     </div>
                                 </div>
                             </div>
-                            <div id="ingredients" className="flex flex-col">
+                            <div id="ingredients" className="flex flex-col scroll-mt-[60px]">
                                 <div className="flex flex-col gap-2">
                                     <p className='inline-flex text-2xl font-bold'>Ingredients</p>
                                     <div>
@@ -111,7 +112,7 @@ export default function RecipePage(){
                                     </div>
                                 </div>
                             </div>
-                            <div id="instructions" className="flex flex-col">
+                            <div id="instructions" className="flex flex-col scroll-mt-[60px]">
                                 <div className="flex flex-col gap-2">
                                     <p className="inline-flex text-2xl font-bold">Instructions</p>
                                     <div className='flex flex-col gap-6'>
@@ -119,25 +120,79 @@ export default function RecipePage(){
                                     </div>
                                 </div>
                             </div>
-                            <div id="nutrition" className='flex flex-col'>
+                            <div id="nutrition" className='flex flex-col scroll-mt-[60px]'>
                                 <div className='flex flex-col gap-2'>
                                     <p className="inline-flex text-2xl font-bold">Nutrition</p>
-                                    {recipe.nutrition?.caloricBreakdown ? (
                                     <div className='flex flex-col gap-2 p-4 border rounded-sm border-black'>
-                                        <MyPieChart 
-                                        title="Caloric Breakdown"
-                                        toolTipLabel="percentage"
-                                        listLabel="nutrients"
-                                        items={formatNutrition(recipe.nutrition.caloricBreakdown)}
-                                        />
-                                    </div>
-                                    ) : (
-                                    <p className="text-gray-500 italic">No nutrition data available.</p>
-                                    )}
+                                        {recipe.nutrition?.caloricBreakdown ? (
+                                            <MyPieChart 
+                                            title="Caloric Breakdown"
+                                            toolTipLabel="percentage"
+                                            listLabel="nutrients"
+                                            items={formatNutrition(recipe.nutrition.caloricBreakdown)}
+                                            />
+                                        ): (
+                                        <p className="text-gray-500 italic">No caloric breakdown data available.</p>
+                                        )}
+                                        {recipe.nutrition?.nutrients ? (
+                                            <MyTable
+                                            caption={"A list of the recipe's nutrients"}
+                                            nutrients={recipe.nutrition?.nutrients}
+                                            properties={["name", "amount", "unit"]}
+                                            />
+                                        ): (
+                                        <p className="text-gray-500 italic">No nutrients data available.</p>
+                                        )}
+                                    </div>                                   
                                 </div>
                             </div>    
                         </div>
-                        <div className='hidden shrink-0 md:sticky md:block md:w-1/3'>
+                        <div id="navigation" className='hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-1/5 md:sticky md:block '>
+                            <div className="flex flex-col h-full w-full justify-center items-center gap-2 overflow-auto">
+                                <p className="text-lg font-semibold text-gray-700 mb-2">Navigation</p>
+                                <ul className="flex flex-col gap-3 text-gray-600">
+                                    <li>
+                                        <a
+                                        href="#summary"
+                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
+                                        >
+                                        Summary
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                        href="#time"
+                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
+                                        >
+                                        Time
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                        href="#ingredients"
+                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
+                                        >
+                                        Ingredients
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                        href="#instructions"
+                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
+                                        >
+                                        Instructions
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                        href="#nutrition"
+                                        className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
+                                        >
+                                        Nutrition
+                                        </a>
+                                    </li>
+                                </ul>                            
+                            </div>
                         </div>  
                     </div>
                 </div>

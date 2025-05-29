@@ -2,13 +2,19 @@ from flask import Flask, request
 from flask_cors import CORS
 import requests
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+api_key = os.getenv("API_KEY")
+
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:5173"])
 
 URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes"
 
 HEADERS = {
-    "x-rapidapi-key": "bfd9da871dmsh10eeb904727a804p1de28cjsneaa62617842a",
+    "x-rapidapi-key": api_key,
     "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
 }
 
@@ -53,4 +59,6 @@ def get_recipe_by_id(id):
 
 
 if __name__ == '__main__':
+    if not api_key:
+        raise ValueError("API_KEY not set in environment variables.")
     app.run()

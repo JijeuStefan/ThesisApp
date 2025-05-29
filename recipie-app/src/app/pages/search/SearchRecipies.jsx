@@ -82,19 +82,18 @@ export default function SearchRecipies(){
 
 
       Object.keys(apiParams).forEach((key) => {
-        if ( !apiParams[key] || (Array.isArray(apiParams[key] && apiParams[key].length === 0))){
+        if ( !apiParams[key] || ((Array.isArray(apiParams[key]) && apiParams[key].length === 0))){
           delete apiParams[key];
         }
       });
 
+      console.log("Final Params:", apiParams);
+
+
       const options = {
         method: 'GET',
-        url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
-        params: apiParams,
-        headers: {
-          'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY || "",
-          'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-        }
+        url: 'http://localhost:5000/recipes',
+        params: apiParams
       };
 
       try {
@@ -114,7 +113,7 @@ export default function SearchRecipies(){
           <Header />
           <main className="flex-grow">
             <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] md:grid-cols-[240px_minmax(0,1fr)]">
-              <div className="row-start-1 row-span-2 hidden shrink-0 md:border-r md:border-gray-950/10 md:sticky md:block h-[calc(100vh-3.5rem)]">
+              <div className="row-start-1 row-span-2 hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] md:border-r md:border-gray-950/10 md:sticky md:block">
                 <div className="block h-full w-full">
                   <SidebarProvider>
                     <SidebarArea

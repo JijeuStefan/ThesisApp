@@ -23,7 +23,7 @@ export default function Header(){
                 <div className="flex flex-row items-center">
                     <div className="hidden md:flex">
                         <nav className="flex flex-row items-center gap-4">
-                            <a className="text-sm hover:border-b hover:border-black" href="/home">Home</a>
+                            <a className="text-sm hover:border-b hover:border-black" href="/">Home</a>
                             <a className="text-sm hover:border-b hover:border-black" href="/search">Search</a>
                             <a className="text-sm hover:border-b hover:border-black" href="/contact">Contact</a>
                             <a className="inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-200" href="https://github.com/JijeuStefan">
@@ -43,7 +43,7 @@ export default function Header(){
                     </div>
                     <div className="flex md:hidden">
                         <nav className="flex flex-row items-center gap-2">
-                            <a className="inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-200" href="/home">
+                            <a className="inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-200" href="/">
                                 <House className="h-5 w-5"></House>
                             </a>
                             <a className="inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-200" href="/search">

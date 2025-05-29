@@ -16,6 +16,7 @@ import MyPieChart from '@/app/my_components/MyPieChart';
 
 
 function formatNutrition(nutrition){
+  if (!nutrition) return [];
   let items = [];
   items.push({key: "carbs", value: nutrition.percentCarbs, color: "#fcba03"});
   items.push({key: "fat", value: nutrition.percentFat, color: "#fc6603"});

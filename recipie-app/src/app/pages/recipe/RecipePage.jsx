@@ -3,6 +3,7 @@ import DOMPurify from 'dompurify';
 import Header from '@/app/my_components/Header';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import MyPieChart from '@/app/my_components/MyPieChart';
 
 import {
   Breadcrumb,
@@ -13,6 +14,15 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 
+function formatNutrition(nutrition){
+    if (!nutrition) return [];
+    let items = [];
+    items.push({key: "carbs", value: nutrition.percentCarbs, color: "#fcba03"});
+    items.push({key: "fat", value: nutrition.percentFat, color: "#fc6603"});
+    items.push({key: "protein", value: nutrition.percentProtein, color: "#fc3503"});
+    return items;
+}
+
 
 export default function RecipePage(){
     const [recipe, setRecipe] = useState({});
@@ -22,11 +32,7 @@ export default function RecipePage(){
         const fetchData = async() => {
             const options = {
                 method: 'GET',
-                url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id}/information`,
-                headers: {
-                    'x-rapidapi-key': 'bfd9da871dmsh10eeb904727a804p1de28cjsneaa62617842a',
-                    'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-                }
+                url: `http://localhost:5000/recipe/${id}`
                 };
 
             try {
@@ -40,7 +46,7 @@ export default function RecipePage(){
 
         fetchData();
         
-    },[]) 
+    },[id]) 
         
 
     return (
@@ -62,28 +68,76 @@ export default function RecipePage(){
                         </Breadcrumb>
                     </div>
                     <div className="flex flex-row gap-4">
-                        <div className='flex flex-col w-2/3 overflow-auto'>
-                            <div id="summary" className='flex flex-col gap-4'>
-                                <div className='inline-flex'>
-                                    <p className='text-4xl font-bold'>{recipe.title}</p>
-                                </div>
+                        <div className='flex flex-col w-full gap-16 md:w-2/3'>
+                            <div id="summary" className='flex flex-col gap-2'>
+                                <p className='inline-flex text-4xl font-bold'>{recipe.title}</p>
                                 <div className='flex flex-col gap-2'>
-                                    <img className='rounded-md h-1/2' src={recipe.image}></img>
+                                    <img className='rounded-md w-full max-h-[400px] object-cover' src={recipe.image}></img>
                                     <p className='text-justify' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }}/>
                                 </div>
                             </div>
                             <div id="time" className="flex flex-col">
-                                <div className="inline-flex">
-                                    <p className='text-2xl font-bold'>Time</p>
+                                <div className="flex flex-col gap-2">
+                                    <p className='inline-flex text-2xl font-bold'>Time</p>
+                                    <div className="flex flex-row items-center justify-around gap-2 p-4 border rounded-sm border-black">
+                                        <div className='flex flex-col'>
+                                            <p className='inline-flex font-semibold text-[#cc7a3d]'>Preparation time:</p>
+                                            <p>{recipe.preparationMinutes ? 
+                                            (`${Math.floor(recipe.preparationMinutes / 60)}h ${Math.floor(recipe.preparationMinutes % 60)}min`) : 
+                                            ("0min")}
+                                            </p>
+                                        </div>
+                                        
+                                        <div>
+                                            <p className='inline-flex font-semibold text-[#cc7a3d]'>Cooking time:</p>
+                                            <p>{recipe.readyInMinutes ? 
+                                            (`${Math.floor(recipe.readyInMinutes / 60)}h ${Math.floor(recipe.readyInMinutes % 60)}min`) : 
+                                            ("0min")} 
+                                            </p>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                             <div id="ingredients" className="flex flex-col">
-                                <div className="inline-flex">
-                                    <p className='text-2xl font-bold'>Ingredients</p>
+                                <div className="flex flex-col gap-2">
+                                    <p className='inline-flex text-2xl font-bold'>Ingredients</p>
+                                    <div>
+                                        <ul className='marker:text-[#cc7a3d] list-disc list-inside'>
+                                            {recipe.extendedIngredients?.map((ingredient, index) => {
+                                                return (<li key={index}>{ingredient.original}</li>)
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="instructions" className="flex flex-col">
+                                <div className="flex flex-col gap-2">
+                                    <p className="inline-flex text-2xl font-bold">Instructions</p>
+                                    <div className='flex flex-col gap-6'>
+                                        <p className='text-justify' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.instructions) }}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="nutrition" className='flex flex-col'>
+                                <div className='flex flex-col gap-2'>
+                                    <p className="inline-flex text-2xl font-bold">Nutrition</p>
+                                    {recipe.nutrition?.caloricBreakdown ? (
+                                    <div className='flex flex-col gap-2 p-4 border rounded-sm border-black'>
+                                        <MyPieChart 
+                                        title="Caloric Breakdown"
+                                        toolTipLabel="percentage"
+                                        listLabel="nutrients"
+                                        items={formatNutrition(recipe.nutrition.caloricBreakdown)}
+                                        />
+                                    </div>
+                                    ) : (
+                                    <p className="text-gray-500 italic">No nutrition data available.</p>
+                                    )}
                                 </div>
                             </div>    
                         </div>
-                        <div className='hidden shrink-0 md:sticky md:block'>
+                        <div className='hidden shrink-0 md:sticky md:block md:w-1/3'>
                         </div>  
                     </div>
                 </div>

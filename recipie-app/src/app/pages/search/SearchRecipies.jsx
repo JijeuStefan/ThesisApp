@@ -21,12 +21,13 @@ const defaultParams = {
 export default function SearchRecipies(){
     const [searchParams, setSearchParams] = useState(defaultParams);
     const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(null);
 
     const handleQueryChange = ((newQuery) => {
       setSearchParams((prev) => ({...prev,query:newQuery}));
     });
 
-    const handleParamChange  = ((param, newValue) => {
+    const handleParamChange = ((param, newValue) => {
       setSearchParams((prev) => ({...prev,[param]:newValue}));
     });
 
@@ -57,9 +58,9 @@ export default function SearchRecipies(){
       }));
     });
 
-
     async function fetchRecipes() {
       setRecipes([]);
+      setLoading(true);
 
       const apiParams = {
         instructionsRequired: 'false',
@@ -101,6 +102,7 @@ export default function SearchRecipies(){
           console.log(response.data);
           console.log(apiParams);
           setRecipes(response.data.results);
+          setLoading(false);
       } catch (error) {
           console.error(error);
       }
@@ -140,6 +142,7 @@ export default function SearchRecipies(){
                   <ContentArea
                     recipes={recipes}
                     includeIngredients={searchParams.includeIngredients}
+                    isLoading={loading}
                   />
                 </div>
               </div>

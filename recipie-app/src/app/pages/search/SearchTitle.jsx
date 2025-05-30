@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import Component from "@/components/comp-547"
 import { useState } from "react"
 
-export default function SearchTitle({query,onQueryChange,fetchRecipes}){
+export default function SearchTitle({query, onQueryChange, fetchRecipes}){
     const [uploadVisible, setUploadVisible] = useState(false);
 
     const handleUploadVisible = () => {

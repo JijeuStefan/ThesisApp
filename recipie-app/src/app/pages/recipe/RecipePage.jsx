@@ -14,6 +14,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import MyTable from '@/app/my_components/MyTable';
+import { Skeleton } from '@/components/ui/skeleton';
 
 function formatNutrition(nutrition){
     if (!nutrition) return [];
@@ -26,12 +27,14 @@ function formatNutrition(nutrition){
 
 
 export default function RecipePage(){
-    const [recipe, setRecipe] = useState({});
     const { id } = useParams();
+    const [recipe, setRecipe] = useState({});
+    const [loading, setLoading] = useState(null);
 
     const navList = ["Summary", "Time", "Ingredients", "Instructions", "Nutrition"];
 
     useEffect(() =>{
+        setLoading(true);
         const fetchData = async() => {
             const options = {
                 method: 'GET',
@@ -42,6 +45,7 @@ export default function RecipePage(){
                 const response = await axios.request(options);
                 console.log(response.data);
                 setRecipe(response.data);
+                setLoading(false);
             } catch (error) {
                 console.error(error);
             }
@@ -56,117 +60,124 @@ export default function RecipePage(){
         <div className="flex flex-col min-h-screen font-inter bg-background">
             <Header/>
             <main className="flex-grow">
-                <div className='flex flex-col gap-4 p-16'>
-                    <div className='inline-flex'>
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <BreadcrumbItem>
-                                <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                                </BreadcrumbItem>
-                                <BreadcrumbSeparator />
-                                <BreadcrumbItem>
-                                <BreadcrumbPage>Recipe</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </BreadcrumbList>
-                        </Breadcrumb>
+                {loading ? (
+                    <div className='flex flex-row gap-4 p-16 h-[calc(100vh-3.5rem)] w-full'>
+                        <Skeleton className="h-full w-full md:w-4/5 bg-gray-400"></Skeleton>
+                        <Skeleton className="hidden h-full w-1/5 md:block bg-gray-400"></Skeleton>
                     </div>
-                    <div className="flex flex-row gap-4">
-                        <div className='flex flex-col w-full gap-16 md:w-4/5'>
-                            <div id="Summary" className='flex flex-col gap-2 scroll-mt-[60px]'>
-                                <p className='inline-flex text-4xl font-bold'>{recipe.title}</p>
-                                <div className='flex flex-col gap-2'>
-                                    <img className='rounded-md w-full max-h-[400px] object-cover' src={recipe.image}></img>
-                                    <p className='text-justify' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }}/>
-                                </div>
-                            </div>
-                            <div id="Time" className="flex flex-col scroll-mt-[60px]">
-                                <div className="flex flex-col gap-2">
-                                    <p className='inline-flex text-2xl font-bold'>Time</p>
-                                    <div className="flex flex-row items-center justify-around gap-2 p-4 border rounded-sm border-black">
-                                        <div className='flex flex-col'>
-                                            <p className='inline-flex font-semibold text-[#cc7a3d]'>Preparation time:</p>
-                                            <p>{recipe.preparationMinutes ? 
-                                            (`${Math.floor(recipe.preparationMinutes / 60)}h ${Math.floor(recipe.preparationMinutes % 60)}min`) : 
-                                            ("0min")}
-                                            </p>
-                                        </div>
-                                        
-                                        <div>
-                                            <p className='inline-flex font-semibold text-[#cc7a3d]'>Cooking time:</p>
-                                            <p>{recipe.readyInMinutes ? 
-                                            (`${Math.floor(recipe.readyInMinutes / 60)}h ${Math.floor(recipe.readyInMinutes % 60)}min`) : 
-                                            ("0min")} 
-                                            </p>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="Ingredients" className="flex flex-col scroll-mt-[60px]">
-                                <div className="flex flex-col gap-2">
-                                    <p className='inline-flex text-2xl font-bold'>Ingredients</p>
-                                    <div>
-                                        <ul className='marker:text-[#cc7a3d] list-disc list-inside'>
-                                            {recipe.extendedIngredients?.map((ingredient, index) => {
-                                                return (<li key={index}>{ingredient.original}</li>)
-                                            })}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="Instructions" className="flex flex-col scroll-mt-[60px]">
-                                <div className="flex flex-col gap-2">
-                                    <p className="inline-flex text-2xl font-bold">Instructions</p>
-                                    <div className='flex flex-col gap-6'>
-                                        <p className='text-justify' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.instructions) }}/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="Nutrition" className='flex flex-col scroll-mt-[60px]'>
-                                <div className='flex flex-col gap-2'>
-                                    <p className="inline-flex text-2xl font-bold">Nutrition</p>
-                                    <div className='flex flex-col gap-2 p-4 border rounded-sm border-black'>
-                                        {recipe.nutrition?.caloricBreakdown ? (
-                                            <MyPieChart 
-                                            title="Caloric Breakdown"
-                                            toolTipLabel="percentage"
-                                            listLabel="nutrients"
-                                            items={formatNutrition(recipe.nutrition.caloricBreakdown)}
-                                            />
-                                        ): (
-                                        <p className="text-gray-500 italic">No caloric breakdown data available.</p>
-                                        )}
-                                        {recipe.nutrition?.nutrients ? (
-                                            <MyTable
-                                            caption={"A list of the recipe's nutrients"}
-                                            nutrients={recipe.nutrition?.nutrients}
-                                            properties={["name", "amount", "unit"]}
-                                            />
-                                        ): (
-                                        <p className="text-gray-500 italic">No nutrients data available.</p>
-                                        )}
-                                    </div>                                   
-                                </div>
-                            </div>    
+                ) : (
+                    <div className='flex flex-col gap-4 p-16'>
+                        <div className='inline-flex'>
+                            <Breadcrumb>
+                                <BreadcrumbList>
+                                    <BreadcrumbItem>
+                                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                                    </BreadcrumbItem>
+                                    <BreadcrumbSeparator />
+                                    <BreadcrumbItem>
+                                    <BreadcrumbPage>Recipe</BreadcrumbPage>
+                                    </BreadcrumbItem>
+                                </BreadcrumbList>
+                            </Breadcrumb>
                         </div>
-                        <div id="Navigation" className='hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-1/5 md:sticky md:block '>
-                            <div className="flex flex-col h-full w-full justify-center items-center gap-2 overflow-auto">
-                                <p className="text-lg font-semibold text-gray-700 mb-2">Navigation</p>
-                                <ul className="flex flex-col gap-3 text-gray-600">
-                                    {navList.map((item, index) => (
-                                        <li key={index}>
-                                            <a
-                                            href={`#${item}`}
-                                            className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
-                                            >{item}
-                                            </a>
-                                        </li>
-                                    ))}                                    
-                                </ul>                            
+                        <div className="flex flex-row gap-4">
+                            <div className='flex flex-col w-full gap-16 md:w-4/5'>
+                                <div id="Summary" className='flex flex-col gap-2 scroll-mt-[60px]'>
+                                    <p className='inline-flex text-4xl font-bold'>{recipe.title}</p>
+                                    <div className='flex flex-col gap-2'>
+                                        <img className='rounded-md w-full max-h-[400px] object-cover' src={recipe.image}></img>
+                                        <p className='text-justify' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }}/>
+                                    </div>
+                                </div>
+                                <div id="Time" className="flex flex-col scroll-mt-[60px]">
+                                    <div className="flex flex-col gap-2">
+                                        <p className='inline-flex text-2xl font-bold'>Time</p>
+                                        <div className="flex flex-row items-center justify-around gap-2 p-4 border rounded-sm border-black">
+                                            <div className='flex flex-col'>
+                                                <p className='inline-flex font-semibold text-[#cc7a3d]'>Preparation time:</p>
+                                                <p>{recipe.preparationMinutes ? 
+                                                (`${Math.floor(recipe.preparationMinutes / 60)}h ${Math.floor(recipe.preparationMinutes % 60)}min`) : 
+                                                ("0min")}
+                                                </p>
+                                            </div>
+                                            
+                                            <div>
+                                                <p className='inline-flex font-semibold text-[#cc7a3d]'>Cooking time:</p>
+                                                <p>{recipe.readyInMinutes ? 
+                                                (`${Math.floor(recipe.readyInMinutes / 60)}h ${Math.floor(recipe.readyInMinutes % 60)}min`) : 
+                                                ("0min")} 
+                                                </p>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Ingredients" className="flex flex-col scroll-mt-[60px]">
+                                    <div className="flex flex-col gap-2">
+                                        <p className='inline-flex text-2xl font-bold'>Ingredients</p>
+                                        <div>
+                                            <ul className='marker:text-[#cc7a3d] list-disc list-inside'>
+                                                {recipe.extendedIngredients?.map((ingredient, index) => {
+                                                    return (<li key={index}>{ingredient.original}</li>)
+                                                })}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Instructions" className="flex flex-col scroll-mt-[60px]">
+                                    <div className="flex flex-col gap-2">
+                                        <p className="inline-flex text-2xl font-bold">Instructions</p>
+                                        <div className='flex flex-col gap-6'>
+                                            <p className='text-justify' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.instructions) }}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Nutrition" className='flex flex-col scroll-mt-[60px]'>
+                                    <div className='flex flex-col gap-2'>
+                                        <p className="inline-flex text-2xl font-bold">Nutrition</p>
+                                        <div className='flex flex-col gap-2 p-4 border rounded-sm border-black'>
+                                            {recipe.nutrition?.caloricBreakdown ? (
+                                                <MyPieChart 
+                                                title="Caloric Breakdown"
+                                                toolTipLabel="percentage"
+                                                listLabel="nutrients"
+                                                items={formatNutrition(recipe.nutrition.caloricBreakdown)}
+                                                />
+                                            ): (
+                                            <p className="text-gray-500 italic">No caloric breakdown data available.</p>
+                                            )}
+                                            {recipe.nutrition?.nutrients ? (
+                                                <MyTable
+                                                caption={"A list of the recipe's nutrients"}
+                                                nutrients={recipe.nutrition?.nutrients}
+                                                properties={["name", "amount", "unit"]}
+                                                />
+                                            ): (
+                                            <p className="text-gray-500 italic">No nutrients data available.</p>
+                                            )}
+                                        </div>                                   
+                                    </div>
+                                </div>    
                             </div>
-                        </div>  
+                            <div id="Navigation" className='hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-1/5 md:sticky md:block '>
+                                <div className="flex flex-col h-full w-full justify-center items-center gap-2 overflow-auto">
+                                    <p className="text-lg font-semibold text-gray-700 mb-2">Navigation</p>
+                                    <ul className="flex flex-col gap-3 text-gray-600">
+                                        {navList.map((item, index) => (
+                                            <li key={index}>
+                                                <a
+                                                href={`#${item}`}
+                                                className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
+                                                >{item}
+                                                </a>
+                                            </li>
+                                        ))}                                    
+                                    </ul>                            
+                                </div>
+                            </div>  
+                        </div>
                     </div>
-                </div>
+                )}
             </main>
         </div>
     );

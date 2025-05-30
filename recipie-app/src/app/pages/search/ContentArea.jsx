@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyPieChart from '@/app/my_components/MyPieChart';
@@ -25,7 +26,7 @@ function formatNutrition(nutrition){
 }
 
 
-export default function ContentArea({recipes, includeIngredients}){
+export default function ContentArea({recipes, includeIngredients, isLoading}){
     const [nutritionVisible, setNutritionVisible] = useState({});
     const navigate = useNavigate();
 
@@ -43,7 +44,12 @@ export default function ContentArea({recipes, includeIngredients}){
     return (
       <div className="container mx-auto p-4">     
         <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
-            { recipes && recipes.map((recipe, index) => {
+            {isLoading ? (
+              [...Array(3)].map((_,index) => {
+                return (<Skeleton key={index} className="h-[500px] w-full max-w-md mx-auto bg-gray-400"></Skeleton>)
+              })
+            ) : (
+              recipes && recipes.map((recipe, index) => {
                 return (
                     <Card key={index} className="justify-between h-[500px] w-full max-w-md mx-auto overflow-auto">
                       <CardHeader className="p-0">
@@ -92,10 +98,7 @@ export default function ContentArea({recipes, includeIngredients}){
                         <Button onClick={() => goToRecipe(recipe.id)}>Cook it</Button>
                       </CardFooter>
                   </Card>
-                )})
-            }
-            {recipes.length === 0 && (
-              <div className="coll-span-full text-start text-muted-foreground">No recipes found</div>)}
+                )}))}
         </div>
         </div>
     )

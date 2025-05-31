@@ -78,11 +78,13 @@ def get_ingredients_suggestion():
         return {"error": "Invalid JSON from Spoonacular"}, 500
 
 
-@app.get("/recipe/<int:id>/similar")
-def get_similar_recipes(id):
-    url = f"{URL}/recipes/{id}/similar"
+@app.get("/recipes/random")
+def get_similar_recipes():
+    url = f"{URL}/recipes/random"
 
-    response = requests.get(url, headers=HEADERS)
+    querystring = request.args.to_dict()
+
+    response = requests.get(url, headers=HEADERS, params=querystring)
 
     if response.status_code != 200:
         print(f"Error: {response.status_code} - {response.text}")

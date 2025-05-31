@@ -30,6 +30,7 @@ function formatNutrition(nutrition){
 export default function RecipePage(){
     const { id } = useParams();
     const [recipe, setRecipe] = useState({});
+    const [similarRecipes, setSimilarRecipes] = useState([]);
     const [loading, setLoading] = useState(null);
 
     const navList = [
@@ -60,7 +61,30 @@ export default function RecipePage(){
 
         fetchData();
         
-    },[id]) 
+    },[id])
+    
+    
+    useEffect(()=>{
+        const fetchData = async()=>{
+            const options = {
+                method: 'GET',
+                url: 'http://localhost:5000/recipes/random',
+                params: {number: '5'}
+                };
+
+            try {
+                const response = await axios.request(options);
+                console.log(response.data);
+                setSimilarRecipes(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+
+        }
+        fetchData();
+      
+    },[id])
         
 
     return (
@@ -164,12 +188,11 @@ export default function RecipePage(){
                                             )}
                                         </div>                                   
                                     </div>
-                                </div>
-                                  
+                                </div>     
                             </div>
                             <div id="Navigation" className='hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-1/6 pl-6 md:sticky md:block '>
-                                <div className="flex flex-col h-full w-full justify-center gap-2">
-                                    <div className="block justify-items-center ">
+                                <div className="flex flex-col h-full w-full justify-center items-center gap-2">
+                                    <div className="block justify-items-start ">
                                         <p className="block px-3 py-1 text-lg font-semibold text-gray-700 mb-2">Navigation</p>
                                         <ul className="flex flex-col gap-3 text-gray-600">
                                             {navList.map((item, index) => (
@@ -182,11 +205,17 @@ export default function RecipePage(){
                                                 </li>
                                             ))}                                    
                                         </ul> 
-                                    </div>
-                                                               
+                                    </div>                                                        
                                 </div>
-                            </div>  
+                            </div>      
                         </div>
+                        <div id="Similar" className='flex flex-col mt-16'>
+                            <div className='block'>
+                                <MyCarousel
+                                    items={similarRecipes}>
+                                </MyCarousel>                               
+                            </div>                                   
+                        </div> 
                     </div>
                 )}
             </main>

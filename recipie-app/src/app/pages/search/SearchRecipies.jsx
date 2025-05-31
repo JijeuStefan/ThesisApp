@@ -90,19 +90,17 @@ export default function SearchRecipies(){
 
       console.log("Final Params:", apiParams);
 
-
-      const options = {
+      try {
+        const options = {
         method: 'GET',
         url: 'http://localhost:5000/recipes',
         params: apiParams
       };
-
-      try {
-          const response = await axios.request(options);
-          console.log(response.data);
-          console.log(apiParams);
-          setRecipes(response.data.results);
-          setLoading(false);
+        const response = await axios.request(options);
+        console.log(response.data);
+        console.log(apiParams);
+        setRecipes(response.data.results);
+        setLoading(false);
       } catch (error) {
           console.error(error);
       }

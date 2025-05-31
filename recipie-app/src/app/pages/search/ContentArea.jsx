@@ -97,7 +97,7 @@ export default function ContentArea({recipes, includeIngredients, isLoading}){
                         >{nutritionVisible[index] ? "Description" : "Nutrition"}</Button>
                         <Button onClick={() => goToRecipe(recipe.id)}>Cook it</Button>
                       </CardFooter>
-                  </Card>
+                    </Card>
                 )}))}
         </div>
         </div>

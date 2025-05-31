@@ -13,9 +13,6 @@ function debounce(func, delay) {
     };
 }
 
-const SPOONACULAR_API_KEY = import.meta.env.VITE_RAPIDAPI_KEY || ""; 
-const SPOONACULAR_HOST = 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com';
-
 export function useIngredientInput() {
     const [inputValue, setInputValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
@@ -42,12 +39,8 @@ export function useIngredientInput() {
         try {
             const options = {
                 method: 'GET',
-                url: `https://${SPOONACULAR_HOST}/food/ingredients/autocomplete`,
-                params: { query, number: '10' },
-                headers: {
-                    'x-rapidapi-key': SPOONACULAR_API_KEY,
-                    'x-rapidapi-host': SPOONACULAR_HOST
-                }
+                url: 'http://localhost:5000/ingredients/suggestion',
+                params: { query, number: '10' }
             };
             const response = await axios.request(options);
             setSuggestions(response.data || []);

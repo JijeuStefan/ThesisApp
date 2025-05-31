@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import MyTable from '@/app/my_components/MyTable';
 import { Skeleton } from '@/components/ui/skeleton';
+import MyCarousel from '@/app/my_components/MyCarousel';
 
 function formatNutrition(nutrition){
     if (!nutrition) return [];
@@ -31,7 +32,13 @@ export default function RecipePage(){
     const [recipe, setRecipe] = useState({});
     const [loading, setLoading] = useState(null);
 
-    const navList = ["Summary", "Time", "Ingredients", "Instructions", "Nutrition"];
+    const navList = [
+    { id: "Summary", text: "Summary" },
+    { id: "Time", text: "Time" },
+    { id: "Ingredients", text: "Ingredients" },
+    { id: "Instructions", text: "Instructions" }, 
+    { id: "Nutrition", text: "Nutrition" }
+];
 
     useEffect(() =>{
         setLoading(true);
@@ -81,7 +88,7 @@ export default function RecipePage(){
                             </Breadcrumb>
                         </div>
                         <div className="flex flex-row gap-4">
-                            <div className='flex flex-col w-full gap-16 md:w-4/5'>
+                            <div className='flex flex-col w-full gap-16 md:w-5/6'>
                                 <div id="Summary" className='flex flex-col gap-2 scroll-mt-[60px]'>
                                     <p className='inline-flex text-4xl font-bold'>{recipe.title}</p>
                                     <div className='flex flex-col gap-2'>
@@ -157,22 +164,26 @@ export default function RecipePage(){
                                             )}
                                         </div>                                   
                                     </div>
-                                </div>    
+                                </div>
+                                  
                             </div>
-                            <div id="Navigation" className='hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-1/5 md:sticky md:block '>
-                                <div className="flex flex-col h-full w-full justify-center items-center gap-2 overflow-auto">
-                                    <p className="text-lg font-semibold text-gray-700 mb-2">Navigation</p>
-                                    <ul className="flex flex-col gap-3 text-gray-600">
-                                        {navList.map((item, index) => (
-                                            <li key={index}>
-                                                <a
-                                                href={`#${item}`}
-                                                className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
-                                                >{item}
-                                                </a>
-                                            </li>
-                                        ))}                                    
-                                    </ul>                            
+                            <div id="Navigation" className='hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-1/6 pl-6 md:sticky md:block '>
+                                <div className="flex flex-col h-full w-full justify-center gap-2">
+                                    <div className="block justify-items-center ">
+                                        <p className="block px-3 py-1 text-lg font-semibold text-gray-700 mb-2">Navigation</p>
+                                        <ul className="flex flex-col gap-3 text-gray-600">
+                                            {navList.map((item, index) => (
+                                               <li key={index}>
+                                                    <a
+                                                    href={`#${item.id}`}
+                                                    className="block px-3 py-1 rounded hover:bg-[#cc7a3d] hover:text-white transition-colors"
+                                                    >{item.text}
+                                                    </a>
+                                                </li>
+                                            ))}                                    
+                                        </ul> 
+                                    </div>
+                                                               
                                 </div>
                             </div>  
                         </div>

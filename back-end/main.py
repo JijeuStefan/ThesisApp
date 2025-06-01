@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 import requests
+import time
 
 from dotenv import load_dotenv
 import os
@@ -96,6 +97,13 @@ def get_similar_recipes():
     except ValueError:
         print(f"Invalid JSON response: {response.text}")
         return {"error": "Invalid JSON from Spoonacular"}, 500
+
+
+@app.get("/images/upload")
+def upload_images():
+    time.sleep(5)
+    return {"success": "Finished"}, 200
+
 
 
 if __name__ == '__main__':

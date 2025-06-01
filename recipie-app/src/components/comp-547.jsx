@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 import { X } from "lucide-react"
 
-export default function Component({onUploadVisible}) {
+export default function Component({onUploadVisible, onUpload}) {
   const maxSizeMB = 20
   const maxSize = maxSizeMB * 1024 * 1024
   const maxFiles = 4
@@ -106,7 +106,7 @@ export default function Component({onUploadVisible}) {
               </Button>
             </div>
           ))}
-          {/* Remove all files button */}
+          {/* Remove/Upload all files buttons */}
           {files.length > 0 && (
             <div className="flex flex-row justify-between">
               <div>
@@ -115,7 +115,7 @@ export default function Component({onUploadVisible}) {
                 </Button>
               </div>
               <div>
-                <Button size="sm" variant="outline" className="hover:text-green-600">
+                <Button size="sm" variant="outline" className="hover:text-green-600" onClick={onUpload}>
                   Upload Files
                 </Button>
               </div>

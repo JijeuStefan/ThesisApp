@@ -74,8 +74,12 @@ export default function RecipePage(){
 
             try {
                 const response = await axios.request(options);
-                console.log(response.data);
-                setSimilarRecipes(response.data);
+                console.log(response.data);                
+                if (response.data && Array.isArray(response.data.recipes)){
+                    setSimilarRecipes(response.data.recipes);
+                } else if( Array.isArray(response.data) ){
+                    setSimilarRecipes(response.data);
+                }
                 setLoading(false);
             } catch (error) {
                 console.error(error);
@@ -100,7 +104,7 @@ export default function RecipePage(){
                     <div className='flex flex-col gap-4 p-16'>
                         <div className='inline-flex'>
                             <Breadcrumb>
-                                <BreadcrumbList>
+                                <BreadcrumbList className="text-md">
                                     <BreadcrumbItem>
                                     <BreadcrumbLink href="/">Home</BreadcrumbLink>
                                     </BreadcrumbItem>
@@ -210,7 +214,7 @@ export default function RecipePage(){
                             </div>      
                         </div>
                         <div id="Similar" className='flex flex-col mt-16'>
-                            <div className='block'>
+                            <div className='flex flex-col'>
                                 <MyCarousel
                                     items={similarRecipes}>
                                 </MyCarousel>                               

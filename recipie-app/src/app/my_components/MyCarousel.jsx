@@ -20,6 +20,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MyPieChart from '@/app/my_components/MyPieChart';
 
 function formatNutrition(nutrition){
@@ -55,8 +57,12 @@ export default function MyCarousel({items}){
     }
 
     return (
-        <Carousel opts={{ align: "start", loop: false }} className="w-full">
-            <CarouselContent className="w-full">
+        <Carousel 
+        opts={{
+            align: "start",
+            loop: true,}} 
+        className="h-full w-full">
+            <CarouselContent className="h-full w-full">
                 {items.map((item, index) => (
                     <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                         <Card key={index} className="justify-between max-w-md mx-auto overflow-auto">

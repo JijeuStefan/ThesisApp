@@ -6,6 +6,7 @@ import ContentArea from "./ContentArea";
 import SidebarArea from "./sidebar/SidebarArea";
 import SearchTitle from "./SearchTitle";
 import { useState } from "react";
+import MyAlert from "@/app/my_components/MyAlert";
 
 const defaultParams = {
   query: '',
@@ -22,6 +23,10 @@ export default function SearchRecipies(){
     const [searchParams, setSearchParams] = useState(defaultParams);
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(null);
+    const [alert, setAlert] = useState({
+      isAlert: false, 
+      title: "",
+      description: {}});
 
     const handleQueryChange = ((newQuery) => {
       setSearchParams((prev) => ({...prev,query:newQuery}));
@@ -57,6 +62,15 @@ export default function SearchRecipies(){
         prev.intolerances.filter((item) => item !== intolerance)
       }));
     });
+
+    const handleAlertClose = () => {
+      setAlert((prev) => ({
+        ...prev,
+        isAlert: false,
+        title: "",
+        description: {}  
+        }))
+    }
 
     async function fetchRecipes() {
       setRecipes([]);
@@ -97,9 +111,26 @@ export default function SearchRecipies(){
         params: apiParams
       };
         const response = await axios.request(options);
-        console.log(response.data);
         console.log(apiParams);
-        setRecipes(response.data.results);
+        console.log(response.data);
+        if (response.data.results && response.data.results.length > 0){
+          setRecipes(response.data.results);
+        } else {
+          setAlert({
+            isAlert: true,
+            title: "No recipes found.",
+            description: (
+              <>
+                <p>Please adjust your filters and try again.</p>
+                <ul className="list-inside list-disc text-sm">
+                  <li>Try fewer ingredients</li>
+                  <li>Be careful at ingredients collision</li>
+                  <li>Change cuisine or prep time</li>
+                </ul>
+              </>
+            )
+          });
+        }
         setLoading(false);
       } catch (error) {
           console.error(error);
@@ -137,6 +168,14 @@ export default function SearchRecipies(){
               </div>
               <div className="row-start-2 row-span-1 border-gray-950/10 overflow-auto">
                 <div className="block h-full w-full">
+                  {alert.isAlert && (
+                    <MyAlert
+                    className="bg-red-50 border border-red-200"
+                    typeOfAlert="destructive"
+                    alert={alert}
+                    onClose={handleAlertClose}
+                    />
+                  )}
                   <ContentArea
                     recipes={recipes}
                     includeIngredients={searchParams.includeIngredients}

@@ -77,7 +77,7 @@ export default function ContentArea({recipes, includeIngredients, isLoading}){
                             </div>}
                           </div>
                         </div>
-                        <CardTitle className="leading-6 text-justify">{recipe.title}</CardTitle>
+                        <CardTitle className="leading-6 text-justify"><a href={`/recipe/${recipe.id}`}>{recipe.title}</a></CardTitle>
                         <CardDescription>
                           {!nutritionVisible[index] ? (
                             <p className="line-clamp-3 text-justify" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recipe.summary) }} />

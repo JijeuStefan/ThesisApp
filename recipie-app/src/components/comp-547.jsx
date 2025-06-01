@@ -60,7 +60,7 @@ export default function Component({onUploadVisible, onUpload}) {
             Select images
           </Button>
         </div>
-        <div className="absolute top-0 right-0 m-2">
+        <div className="absolute top-2 right-2">
           <Button onClick={onUploadVisible}>
             <X/>
           </Button>

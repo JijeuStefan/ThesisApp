@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
-#main {
+#loader {
     background-color: #fb8d33;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
 }
 
-h1 {
+#loader h1 {
     position: relative;
     margin: 0 auto;
     top: 25vh;
@@ -16,7 +16,7 @@ h1 {
     font-size: 6vh;
     color: #333;
     opacity: 0.75;
-    animation: pulse 2.5s linear infinite;
+    animation: cookingPulse 2.5s linear infinite;
 }
 
 #cooking {
@@ -36,7 +36,7 @@ h1 {
     height: 50%;
     background-color: transparent;
     transform-origin: 15% 60%;
-    animation: flip 2.1s ease-in-out infinite;
+    animation: cookingFlip 2.1s ease-in-out infinite;
 }
 
 #cooking #area #sides {
@@ -76,7 +76,7 @@ h1 {
     width: 100%;
     height: 100%;
     transform: rotateX(85deg);
-    animation: jump 2.1s ease-in-out infinite;
+    animation: cookingJump 2.1s ease-in-out infinite;
 }
 
 #cooking #area #pancake #pastry {
@@ -89,7 +89,7 @@ h1 {
     box-shadow: 0 0 3px 0 #333;
     border-radius: 100%;
     transform-origin: -20% 0;
-    animation: fly 2.1s ease-in-out infinite;
+    animation: cookingFly 2.1s ease-in-out infinite;
 }
 
 #cooking .bubble {
@@ -105,7 +105,7 @@ h1 {
     width: 2.5vh;
     height: 2.5vh;
     background-color: #454545;
-    animation: bubble 2s cubic-bezier(0.53, 0.16, 0.39, 0.96) infinite;
+    animation: cookingBubble 2s cubic-bezier(0.53, 0.16, 0.39, 0.96) infinite;
 }
 
 #cooking .bubble:nth-child(2) {
@@ -114,7 +114,7 @@ h1 {
     width: 2vh;
     height: 2vh;
     background-color: #3d3d3d;
-    animation: bubble 2s ease-in-out 0.35s infinite; 
+    animation: cookingBubble 2s ease-in-out 0.35s infinite; 
 }
 
 #cooking .bubble:nth-child(3) {
@@ -123,7 +123,7 @@ h1 {
     width: 1.5vh;
     height: 1.5vh;
     background-color: #333;
-    animation: bubble 1.5s cubic-bezier(0.53, 0.16, 0.39, 0.96) 0.55s infinite;
+    animation: cookingBubble 1.5s cubic-bezier(0.53, 0.16, 0.39, 0.96) 0.55s infinite;
 }
 
 #cooking .bubble:nth-child(4) {
@@ -132,7 +132,7 @@ h1 {
     width: 1.2vh;
     height: 1.2vh;
     background-color: #2b2b2b;
-    animation: bubble 1.8s cubic-bezier(0.53, 0.16, 0.39, 0.96) 0.55s infinite;
+    animation: cookingBubble 1.8s cubic-bezier(0.53, 0.16, 0.39, 0.96) 0.55s infinite;
 }
 
 #cooking .bubble:nth-child(5) {
@@ -141,11 +141,11 @@ h1 {
     width: 1.1vh;
     height: 1.1vh;
     background-color: #242424;
-    animation: bubble 1.6s ease-in-out 1s infinite; 
+    animation: cookingBubble 1.6s ease-in-out 1s infinite; 
 }
 
 
-@keyframes pulse {
+@keyframes cookingPulse  {
     0% {
         transform: scale(1, 1);
         opacity: 0.25;
@@ -160,7 +160,7 @@ h1 {
     }
 }
 
-@keyframes flip {
+@keyframes cookingFlip {
     0% {
         transform: rotate(0deg);
     }
@@ -199,7 +199,7 @@ h1 {
     }
 }
 
-@keyframes jump {
+@keyframes cookingJump {
     0% {
         top: 24;
         transform: rotateX(85deg);
@@ -220,7 +220,7 @@ h1 {
     }
 }
 
-@keyframes fly {
+@keyframes cookingFly {
     0% {
         bottom: 26%;
         transform: rotate(0deg);
@@ -241,7 +241,7 @@ h1 {
     }
 }
 
-@keyframes bubble {
+@keyframes cookingBubble {
     0% {
         transform: scale(0.15, 0.15);
         top: 80%;

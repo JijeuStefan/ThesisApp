@@ -55,7 +55,7 @@ export default function SearchTitle({query, onQueryChange, fetchRecipes}){
                         // Source: https://codepen.io/Cr8tiveJen/pen/povjYOm
                         // Licensed under MIT License
                         // 
-                        (<div id="main">
+                        (<div id="loader">
                             <h1>Cooking in progress</h1>
                             <div id="cooking">
                                 <div class="bubble"></div>

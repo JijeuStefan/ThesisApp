@@ -80,7 +80,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
         <Sidebar>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Filters</SidebarGroupLabel>
+                    <SidebarGroupLabel><p>Filters</p></SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <Collapsible defaultOpen className="group/collapsible">

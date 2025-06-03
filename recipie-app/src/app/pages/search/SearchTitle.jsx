@@ -1,15 +1,16 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Component from "@/components/comp-547"
-import { FunnelPlus } from 'lucide-react';
+import { FunnelPlus, FunnelX } from 'lucide-react';
 import "./loading.css"
 
 import { useState } from "react"
 import axios from "axios";
 
-export default function SearchTitle({query, onQueryChange, fetchRecipes}){
+export default function SearchTitle({query, onQueryChange, fetchRecipes,isSidebarShown, onToggleSidebar}){
     const [uploadVisible, setUploadVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+
 
     const handleUploadVisible = () => {
         setUploadVisible(false);
@@ -35,11 +36,19 @@ export default function SearchTitle({query, onQueryChange, fetchRecipes}){
     return (
     <div className="flex flex-row items-center justify-start p-4 gap-2">
         <div className="flex flex-row items-center w-full gap-2">
-            <Button><FunnelPlus></FunnelPlus></Button>
+            {!isSidebarShown ? (
+                <Button onClick={onToggleSidebar}>
+                    <FunnelPlus/>
+                </Button>
+            ) :(
+                <Button onClick={onToggleSidebar}>
+                    <FunnelX/>
+                </Button>
+            )}
             <Input 
             id="title" 
             type="text" 
-            placeholder="Find a recipie"
+            placeholder="Find a recipe"
             value={query}
             onChange={(e)=>{onQueryChange(e.target.value)}}
             ></Input>

@@ -61,7 +61,7 @@ export default function ContentArea({recipes, includeIngredients, isLoading}){
                             <div className="flex flex-row items-center gap-4">
                               {recipe.usedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
                                   <Check className="h-5 w-5 text-green-600"/>
-                                  <p>{includeIngredients.length - recipe.unusedIngredients.length} <span className="sr-only">used</span></p>
+                                  <p>{recipe.usedIngredientCount} <span className="sr-only">used</span></p>
                               </div>}
                             
                               {recipe.missedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>

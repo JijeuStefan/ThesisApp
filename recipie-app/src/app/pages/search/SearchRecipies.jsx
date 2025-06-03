@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar"; // SidebarTrigger might not be needed at this level anymore if the funnel button handles it
 
 import Header from "../../my_components/header";
 import ContentArea from "./ContentArea";
@@ -18,7 +18,6 @@ const defaultParams = {
   maxReadyTime: ''
 }
 
-
 export default function SearchRecipies(){
     const [searchParams, setSearchParams] = useState(defaultParams);
     const [recipes, setRecipes] = useState([]);
@@ -27,6 +26,7 @@ export default function SearchRecipies(){
       isAlert: false, 
       title: "",
       description: {}});
+    const [showSidebar, setShowSidebar] = useState(true); 
 
     const handleQueryChange = ((newQuery) => {
       setSearchParams((prev) => ({...prev,query:newQuery}));
@@ -72,6 +72,11 @@ export default function SearchRecipies(){
         }))
     }
 
+    
+    const toggleSidebar = () => {
+      setShowSidebar(prev => !prev);
+    }
+
     async function fetchRecipes() {
       setRecipes([]);
       setLoading(true);
@@ -94,7 +99,6 @@ export default function SearchRecipies(){
         ...(searchParams.intolerances.length > 0 && {intolerances: searchParams.intolerances.join(',')}),
         ...(searchParams.maxReadyTime && {maxReadyTime: searchParams.maxReadyTime})
       };
-
 
       Object.keys(apiParams).forEach((key) => {
         if ( !apiParams[key] || ((Array.isArray(apiParams[key]) && apiParams[key].length === 0))){
@@ -134,19 +138,18 @@ export default function SearchRecipies(){
         setLoading(false);
       } catch (error) {
           console.error(error);
+          setLoading(false);
       }
     }
-
-
 
     return (
         <div className="flex flex-col min-h-screen font-inter bg-background">
           <Header />
           <main className="flex-grow">
-            <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] md:grid-cols-[240px_minmax(0,1fr)]">
-              <div className="row-start-1 row-span-2 hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] md:sticky md:block md:border-r md:border-gray-950/10">
-                <div className="block h-full w-full">
-                  <SidebarProvider>
+            <div className="flex flex-row">
+              {showSidebar && (
+                <div className="hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-[240px] border-r border-gray-950/10 overflow-y-auto md:block md:sticky">
+                  <SidebarProvider> 
                     <SidebarArea
                       searchParams={searchParams}
                       onParamChange={handleParamChange}
@@ -156,31 +159,24 @@ export default function SearchRecipies(){
                     />
                   </SidebarProvider>
                 </div>
-              </div>
-              <div className="row-start-1 row-span-1 border-b border-gray-950/10 md:col-start-2">
-                <div className="block h-full w-full">
-                    <SearchTitle
-                      query={searchParams.query}
-                      onQueryChange={handleQueryChange}
-                      fetchRecipes={fetchRecipes}
-                    />
-                </div>
-              </div>
-              <div className="row-start-2 row-span-1 border-gray-950/10 overflow-auto">
-                <div className="block h-full w-full">
-                  {alert.isAlert && (
-                    <MyAlert
-                    className="bg-red-50 border border-red-200"
-                    typeOfAlert="destructive"
-                    alert={alert}
-                    onClose={handleAlertClose}
-                    />
-                  )}
-                  <ContentArea
-                    recipes={recipes}
-                    includeIngredients={searchParams.includeIngredients}
-                    isLoading={loading}
+              )}
+
+              <div className="flex flex-col flex-grow min-w-0">
+                <div className="border-b border-gray-950/10 sticky top-14 bg-background z-10">
+                  <SearchTitle
+                    query={searchParams.query}
+                    onQueryChange={handleQueryChange}
+                    fetchRecipes={fetchRecipes}
+                    isSidebarShown={showSidebar}
+                    onToggleSidebar={toggleSidebar}
                   />
+                </div>
+                <div className="flex-grow overflow-auto">
+                    <ContentArea
+                      recipes={recipes}
+                      includeIngredients={searchParams.includeIngredients}
+                      isLoading={loading}
+                    />
                 </div>
               </div>
             </div>
@@ -188,4 +184,3 @@ export default function SearchRecipies(){
         </div>
     )
 }
-

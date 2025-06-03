@@ -2,7 +2,7 @@ import { House, Search, Phone} from 'lucide-react';
 
 export default function Header(){
     return (
-        <header className="sticky inset-x-0 top-0 z-50 border-b border-gray-950/10 bg-background/65 backdrop-blur-sm">
+        <header className="sticky inset-x-0 top-0 z-50 border-b border-gray-950/10 bg-background">
             <div className="flex flex-row items-center justify-between h-14 px-6 gap-4">
                 <div className="flex flex-row items-center gap-2">
                     <svg 

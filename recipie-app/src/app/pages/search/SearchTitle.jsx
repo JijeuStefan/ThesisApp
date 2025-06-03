@@ -37,11 +37,11 @@ export default function SearchTitle({query, onQueryChange, fetchRecipes,isSideba
     <div className="flex flex-row items-center justify-start p-4 gap-2">
         <div className="flex flex-row items-center w-full gap-2">
             {!isSidebarShown ? (
-                <Button onClick={onToggleSidebar}>
+                <Button variant={"outline"} onClick={onToggleSidebar}>
                     <FunnelPlus/>
                 </Button>
             ) :(
-                <Button onClick={onToggleSidebar}>
+                <Button variant={"outline"} onClick={onToggleSidebar}>
                     <FunnelX/>
                 </Button>
             )}

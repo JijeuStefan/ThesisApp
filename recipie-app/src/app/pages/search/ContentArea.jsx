@@ -95,7 +95,7 @@ export default function ContentArea({recipes, includeIngredients, isLoading}){
                         <Button variant="outline"
                           onClick={() => handleSetNutrition(index)}
                         >{nutritionVisible[index] ? "Description" : "Nutrition"}</Button>
-                        <Button onClick={() => goToRecipe(recipe.id)}>Cook it</Button>
+                        <Button className="bg-[#cc7a3d] hover:bg-[#cc7a3d]" onClick={() => goToRecipe(recipe.id)}>Cook it</Button>
                       </CardFooter>
                     </Card>
                 )}))}

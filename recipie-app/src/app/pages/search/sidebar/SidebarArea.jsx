@@ -107,7 +107,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                                     </option>)
                                                             })}
                                                         </datalist>
-                                                        <Button onClick={handleAddIncludeIngredient}>Add</Button>
+                                                        <Button variant={"outline"} onClick={handleAddIncludeIngredient}>Add</Button>
                                                     </div>
                                                     {searchParams.includeIngredients.length > 0  && (
                                                         <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
@@ -155,7 +155,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                                     </option>)
                                                             })}
                                                         </datalist>
-                                                        <Button onClick={handleAddExcludeIngredient}>Add</Button>
+                                                        <Button variant={"outline"} onClick={handleAddExcludeIngredient}>Add</Button>
                                                     </div>
                                                     {searchParams.excludeIngredients.length > 0 && (
                                                         <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
@@ -260,7 +260,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                     key={intolerance}
                                                     className="flex items-center gap-2 p-0.5"
                                                 >
-                                                    <Checkbox
+                                                    <Checkbox className="data-[state=checked]:border-white data-[state=checked]:bg-[#cc7a3d] data-[state=checked]:text-white"
                                                     id={intolerance}
                                                     checked={searchParams.intolerances.includes(intolerance)}
                                                     onCheckedChange={(checked) =>

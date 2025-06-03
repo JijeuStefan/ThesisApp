@@ -61,7 +61,7 @@ export default function Component({onUploadVisible, onUpload}) {
           </Button>
         </div>
         <div className="absolute top-2 right-2">
-          <Button onClick={onUploadVisible}>
+          <Button variant={"ghost"} className="hover:bg-white hover:text-destructive" onClick={onUploadVisible}>
             <X/>
           </Button>
         </div>

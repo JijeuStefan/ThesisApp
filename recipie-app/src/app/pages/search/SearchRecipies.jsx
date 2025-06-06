@@ -5,11 +5,13 @@ import Header from "../../my_components/header";
 import ContentArea from "./ContentArea";
 import SidebarArea from "./sidebar/SidebarArea";
 import SearchTitle from "./SearchTitle";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import MyAlert from "@/app/my_components/MyAlert";
+import MyUpload from "@/app/my_components/MyUpload";
 
 const defaultParams = {
   query: '',
+  titleMatch: '',
   cuisine: '',
   diet: '',
   intolerances: [],
@@ -26,7 +28,13 @@ export default function SearchRecipies(){
       isAlert: false, 
       title: "",
       description: {}});
-    const [showSidebar, setShowSidebar] = useState(true); 
+    const [showSidebar, setShowSidebar] = useState(true);
+
+    const [uploadVisible, setUploadVisible] = useState(false);
+    const [loadingUplaod, setLoadingUpload] = useState(false);
+    
+    const [showSearchTitle, setShowSearchTitle] = useState(true);
+    const lastScrollY = useRef(0);
 
     const handleQueryChange = ((newQuery) => {
       setSearchParams((prev) => ({...prev,query:newQuery}));
@@ -63,6 +71,10 @@ export default function SearchRecipies(){
       }));
     });
 
+    const toggleSidebar = () => {
+      setShowSidebar(prev => !prev);
+    }
+
     const handleAlertClose = () => {
       setAlert((prev) => ({
         ...prev,
@@ -72,9 +84,8 @@ export default function SearchRecipies(){
         }))
     }
 
-    
-    const toggleSidebar = () => {
-      setShowSidebar(prev => !prev);
+    const handleUploadVisible = () => {
+        setUploadVisible(prev => !prev);
     }
 
     async function fetchRecipes() {
@@ -90,8 +101,8 @@ export default function SearchRecipies(){
         ignorePantry: 'true',
         sort: searchParams.includeIngredients.length > 0 ? "max-used-ingredients" : "random",
         offset: '0',
-        number: '24',
-        query: searchParams.query,
+        number: '48',
+        ...(searchParams.query && {query: searchParams.query, titleMatch: searchParams.query}),
         ...(searchParams.includeIngredients.length > 0 && {includeIngredients: searchParams.includeIngredients.join(',')}),
         ...(searchParams.excludeIngredients.length > 0 && {excludeIngredients: searchParams.excludeIngredients.join(',')}),
         ...(searchParams.cuisine && {cuisine: searchParams.cuisine}),
@@ -142,11 +153,62 @@ export default function SearchRecipies(){
       }
     }
 
+    const handleUpload = async() => {
+        setLoadingUpload(true);
+        const options = {
+            method: 'GET',
+            url: `http://localhost:5000/images/upload`
+            };
+
+        try {
+            const response = await axios.request(options);
+            console.log(response.data);
+            handleUploadVisible();
+            setLoadingUpload(false);
+        } catch (error) {
+            console.error(error);
+            setLoadingUpload(false);
+        }
+    }
+
+    useEffect(() => {
+      const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY < lastScrollY.current) {
+          // Scrolling up
+          setShowSearchTitle(true);
+        } else {
+          // Scrolling down
+          setShowSearchTitle(false);
+        }
+
+        lastScrollY.current = currentScrollY;
+      };
+
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
         <div className="flex flex-col min-h-screen font-inter bg-background">
           <Header />
           <main className="flex-grow">
+            {uploadVisible && (
+                <MyUpload
+                loading={loadingUplaod}
+                onUploadVisible={handleUploadVisible}
+                onUpload={handleUpload}
+                />
+            )}
             <div className="flex flex-row">
+              {alert.isAlert && (
+                <MyAlert
+                typeOfAlert={"destructive"}
+                alert={alert}
+                onClose={handleAlertClose}
+                ></MyAlert>
+              )}
               {showSidebar && (
                 <div className="hidden shrink-0 top-14 h-[calc(100vh-3.5rem)] w-[240px] border-r border-gray-950/10 overflow-y-auto md:block md:sticky">
                   <SidebarProvider> 
@@ -162,19 +224,21 @@ export default function SearchRecipies(){
               )}
 
               <div className="flex flex-col flex-grow min-w-0">
-                <div className="border-b border-gray-950/10 sticky top-14 bg-background z-10">
+                <div className={`transition-transform duration-300 ease-in-out sticky top-14 bg-background z-10
+                  ${showSearchTitle ? 'translate-y-0' : '-translate-y-full'}
+                  border-b border-gray-950/10`}>
                   <SearchTitle
                     query={searchParams.query}
                     onQueryChange={handleQueryChange}
                     fetchRecipes={fetchRecipes}
                     isSidebarShown={showSidebar}
                     onToggleSidebar={toggleSidebar}
+                    onUploadVisible={handleUploadVisible}
                   />
                 </div>
                 <div className="flex-grow overflow-auto">
                     <ContentArea
                       recipes={recipes}
-                      includeIngredients={searchParams.includeIngredients}
                       isLoading={loading}
                     />
                 </div>

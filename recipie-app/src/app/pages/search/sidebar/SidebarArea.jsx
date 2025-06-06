@@ -1,5 +1,5 @@
 import { useIngredientInput } from './useIngredientInput';
-import { Minus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 
 
 import {
@@ -107,7 +107,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                                     </option>)
                                                             })}
                                                         </datalist>
-                                                        <Button variant={"outline"} onClick={handleAddIncludeIngredient}>Add</Button>
+                                                        <Button className="hover:text-green-600" variant={"outline"} onClick={handleAddIncludeIngredient}><Plus/></Button>
                                                     </div>
                                                     {searchParams.includeIngredients.length > 0  && (
                                                         <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">
@@ -155,7 +155,7 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                                                                     </option>)
                                                             })}
                                                         </datalist>
-                                                        <Button variant={"outline"} onClick={handleAddExcludeIngredient}>Add</Button>
+                                                        <Button className="hover:text-green-600" variant={"outline"} onClick={handleAddExcludeIngredient}><Plus/></Button>
                                                     </div>
                                                     {searchParams.excludeIngredients.length > 0 && (
                                                         <div className="flex flex-col w-full p-2 gap-1 rounded-md border border-input bg-background">

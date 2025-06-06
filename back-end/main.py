@@ -105,7 +105,6 @@ def upload_images():
     return {"success": "Finished"}, 200
 
 
-
 if __name__ == '__main__':
     if not api_key:
         raise ValueError("API_KEY not set in environment variables.")

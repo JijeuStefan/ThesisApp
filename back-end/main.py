@@ -9,15 +9,15 @@ import os
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173"])
-
 URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
 
 HEADERS = {
     "x-rapidapi-key": api_key,
     "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
 }
+
+app = Flask(__name__)
+CORS(app, origins=["http://localhost:5173"])
 
 
 @app.get("/recipes")

@@ -10,6 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 import MyPieChart from '@/app/my_components/MyPieChart';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -35,22 +40,47 @@ export default function MyCard({recipe}){
     const handleSetNutrition = () => {
       setNutritionVisible(prev => !prev)}
     return (
-    <Card className="justify-between h-[470px] w-full max-w-md mx-auto overflow-auto">
+    <Card className="justify-between h-[500px] w-full max-w-md mx-auto overflow-auto">
         <CardHeader className="gap-4 p-0 overflow-x-clip">
         <img className="w-full h-48 object-cover" src={recipe.image} alt={recipe.title}></img>
         
         <div className="flex flex-row items-center justify-between gap-4 px-6 text-sm text-muted-foreground">
-            <div className="flex flex-row items-center gap-4">
-            {recipe.usedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
-                <Check className="h-5 w-5 text-green-600"/>
-                <p>{recipe.usedIngredientCount} <span className="sr-only">used</span></p>
-            </div>}
-            
-            {recipe.missedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>
-                <X className="h-5 w-5 text-red-600"/>
-                <p>{recipe.missedIngredientCount} <span className="sr-only">missed</span></p>
-            </div>}
-            </div>
+          {(recipe.usedIngredients && recipe.missedIngredients) && (
+            <HoverCard>
+                <HoverCardTrigger>
+                  <div className="flex flex-row items-center gap-4">
+                    {recipe.usedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.usedIngredientCount} ingredients used`}>
+                      <Check className="h-5 w-5 text-green-600"/>
+                      <p>{recipe.usedIngredientCount} <span className="sr-only">used</span></p>
+                    </div>}              
+                    {recipe.missedIngredientCount != null && <div className="flex items-center" aria-label={`${recipe.missedIngredientCount} ingredients missed`}>
+                        <X className="h-5 w-5 text-red-600"/>
+                        <p>{recipe.missedIngredientCount} <span className="sr-only">missed</span></p>
+                    </div>}
+                  </div>                 
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-sm font-semibold mb-2 text-green-700">Owned Ingredients</h4>
+                      <ul className="list-disc list-inside text-sm text-green-900">
+                        {recipe.usedIngredients.map((item, index) => (
+                          <li key={index}>{item.name}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold mb-2 text-red-700">Missing Ingredients</h4>
+                      <ul className="list-disc list-inside text-sm text-red-900">
+                        {recipe.missedIngredients.map((item, index) => (
+                          <li key={index}>{item.name}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+          )}           
             <div className="flex flex-row items-center gap-2">
             {recipe.readyInMinutes && <div className="flex items-center gap-1" aria-label={`Ready in ${recipe.readyInMinutes} minutes`}>
                 <Clock4 className="h-4 w-4"/>

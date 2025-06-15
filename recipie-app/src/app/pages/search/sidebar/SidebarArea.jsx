@@ -36,11 +36,13 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 
+const type = ["main course", "side dish", "dessert", "appetizer", "salad", "bread", "breakfast", "soup", "beverage", "sauce", "drink"];
 const intolerances = ["dairy", "egg", "gluten", "peanut", "sesame", "seafood", "shellfish", "soy", "sulfite", "tree nut", "wheat"];
 const diet = ["pescetarian", "lacto vegetarian", "ovo vegetarian", "vegan", "paleo", "primal", "vegetarian"];
+const cuisine = ["african", "chinese", "japanese", "korean", "vietnamese", "thai", "indian", "british", "irish", "french", "italian", "mexican", "spanish", "middle eastern", "jewish", "american", "cajun", "southern", "greek", "german", "nordic", "eastern european", "caribbean", "latin american"];
 
 
-export default function SidebarArea({searchParams, onParamChange, onIncludeIngredient, onExcludeIngredient, onIntoleranceChange}){
+export default function SidebarArea({searchParams, onParamChange, onIncludeIngredient, onExcludeIngredient, onIntoleranceChange, onTypeChange}){
     
     const includeInput = useIngredientInput();
     const excludeInput = useIngredientInput();
@@ -202,17 +204,58 @@ export default function SidebarArea({searchParams, onParamChange, onIncludeIngre
                             <Collapsible defaultOpen className="group/collapsible">
                                 <SidebarMenuItem>
                                     <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton>Meal</SidebarMenuButton>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub>
+                                            <SidebarMenuSubItem className="flex items-center gap-2 p-0.5">
+                                                <Select
+                                                    value={searchParams.type}
+                                                    onValueChange={(value) => onParamChange("type", value === "none" ? "" : value)}>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Type" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="none">-- None --</SelectItem> 
+                                                        {type.length > 0 && type.map((item) => {
+                                                            return (
+                                                                <SelectItem 
+                                                                key={item}
+                                                                value={item}>{item}</SelectItem>
+                                                            )
+                                                        })}
+                                                    </SelectContent>
+                                                </Select>
+                                            </SidebarMenuSubItem>
+                                        </SidebarMenuSub>
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+                            <Collapsible defaultOpen className="group/collapsible">
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
                                         <SidebarMenuButton>Cuisine</SidebarMenuButton>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
                                         <SidebarMenuSub>
                                             <SidebarMenuSubItem className="flex items-center gap-2 p-0.5">
-                                                <Input 
-                                                type="text" 
-                                                placeholder="e.g: indian,korean"
-                                                value={searchParams.cuisine}
-                                                onChange={(e) => {onParamChange("cuisine", e.target.value)}}>                                                    
-                                                </Input>
+                                                <Select
+                                                    value={searchParams.cuisine}
+                                                    onValueChange={(value) => onParamChange("cuisine", value === "none" ? "" : value)}>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Type" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="none">-- None --</SelectItem> 
+                                                        {cuisine.length > 0 && cuisine.map((item) => {
+                                                            return (
+                                                                <SelectItem 
+                                                                key={item}
+                                                                value={item}>{item}</SelectItem>
+                                                            )
+                                                        })}
+                                                    </SelectContent>
+                                                </Select>
                                             </SidebarMenuSubItem>
                                         </SidebarMenuSub>
                                     </CollapsibleContent>

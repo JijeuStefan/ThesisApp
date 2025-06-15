@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SidebarProvider } from "@/components/ui/sidebar"; // SidebarTrigger might not be needed at this level anymore if the funnel button handles it
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 import Header from "../../my_components/header";
 import ContentArea from "./ContentArea";
@@ -12,6 +12,7 @@ import MyUpload from "@/app/my_components/MyUpload";
 const defaultParams = {
   query: '',
   titleMatch: '',
+  type: '',
   cuisine: '',
   diet: '',
   intolerances: [],
@@ -105,6 +106,7 @@ export default function SearchRecipies(){
         ...(searchParams.query && {query: searchParams.query, titleMatch: searchParams.query}),
         ...(searchParams.includeIngredients.length > 0 && {includeIngredients: searchParams.includeIngredients.join(',')}),
         ...(searchParams.excludeIngredients.length > 0 && {excludeIngredients: searchParams.excludeIngredients.join(',')}),
+        ...(searchParams.type && {type: searchParams.type}),
         ...(searchParams.cuisine && {cuisine: searchParams.cuisine}),
         ...(searchParams.diet && {diet: searchParams.diet}),
         ...(searchParams.intolerances.length > 0 && {intolerances: searchParams.intolerances.join(',')}),

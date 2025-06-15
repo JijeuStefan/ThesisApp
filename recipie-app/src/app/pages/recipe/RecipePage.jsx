@@ -112,6 +112,10 @@ export default function RecipePage(){
                                     <BreadcrumbItem>
                                     <BreadcrumbPage>Recipe</BreadcrumbPage>
                                     </BreadcrumbItem>
+                                    <BreadcrumbSeparator />
+                                    <BreadcrumbItem>
+                                    <BreadcrumbPage>{recipe.title}</BreadcrumbPage>
+                                    </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>

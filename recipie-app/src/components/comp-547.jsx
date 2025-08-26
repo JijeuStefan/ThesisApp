@@ -115,7 +115,7 @@ export default function Component({onUploadVisible, onUpload}) {
                 </Button>
               </div>
               <div>
-                <Button size="sm" variant="outline" className="hover:text-green-600" onClick={onUpload}>
+                <Button size="sm" variant="outline" className="hover:text-green-600" onClick={() => onUpload(files)}>
                   Upload Files
                 </Button>
               </div>

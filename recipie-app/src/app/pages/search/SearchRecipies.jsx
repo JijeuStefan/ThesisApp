@@ -45,23 +45,39 @@ export default function SearchRecipies(){
       setSearchParams((prev) => ({...prev,[param]:newValue}));
     });
 
-    const handleIncludeIngredient = ((ingredient, include) =>{
-      setSearchParams((prev) =>({
-        ...prev,
-        includeIngredients: include ?
-        [...prev.includeIngredients, ingredient] :
-        prev.includeIngredients.filter((item) => item != ingredient)
-      }))
-    })
+    const handleIncludeIngredient = (ingredient, include) => {
+      setSearchParams((prev) => {
+        const newSet = new Set(prev.includeIngredients);
+
+        if (include) {
+          newSet.add(ingredient);
+        } else {
+          newSet.delete(ingredient);
+        }
+
+        return {
+          ...prev,
+          includeIngredients: Array.from(newSet)
+        };
+      });
+    };
 
     const handleExcludeIngredient = ((ingredient, exclude) =>{
-      setSearchParams((prev) =>({
-        ...prev,
-        excludeIngredients: exclude ?
-        [...prev.excludeIngredients, ingredient] :
-        prev.excludeIngredients.filter((item) => item != ingredient)
-      }))
-    })
+      setSearchParams((prev) => {
+        const newSet = new Set(prev.excludeIngredients);
+
+        if (exclude) {
+          newSet.add(ingredient);
+        } else {
+          newSet.delete(ingredient);
+        }
+
+        return {
+          ...prev,
+          excludeIngredients: Array.from(newSet)
+        };
+      });
+    });
 
     const handleIntoleranceChange = ((intolerance, checked) =>{
       setSearchParams((prev) => ({
@@ -155,21 +171,34 @@ export default function SearchRecipies(){
       }
     }
 
-    const handleUpload = async() => {
+    const handleUpload = async(files) => {
         setLoadingUpload(true);
-        const options = {
-            method: 'GET',
-            url: `http://localhost:5000/images/upload`
-            };
-
         try {
-            const response = await axios.request(options);
-            console.log(response.data);
-            handleUploadVisible();
-            setLoadingUpload(false);
+          const formData = new FormData();
+
+          files.forEach((fileObj) => {
+            formData.append("images", fileObj.file); 
+          });
+
+          const options = {
+            method: "POST",
+            url: "http://localhost:5000/images/upload",
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            data: formData,
+          };
+
+          const response = await axios.request(options);
+          for (const ingredient of response.data.detected_ingredients) {
+            handleIncludeIngredient(ingredient, true);
+          }
+
+          handleUploadVisible();
+          setLoadingUpload(false);
         } catch (error) {
-            console.error(error);
-            setLoadingUpload(false);
+          console.error(error);
+          setLoadingUpload(false);
         }
     }
 

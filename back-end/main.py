@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 import requests
+from ultralytics import YOLO
 import time
 
 from dotenv import load_dotenv
@@ -18,6 +19,9 @@ HEADERS = {
 
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:5173"])
+
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
 @app.get("/recipes")
@@ -99,10 +103,46 @@ def get_similar_recipes():
         return {"error": "Invalid JSON from Spoonacular"}, 500
 
 
-@app.get("/images/upload")
+def detect_food(image_path):
+    pretrained_models = ["./models/vegetables/best.pt"]
+    detected_objects = set()
+
+    for pretrained_model in pretrained_models:
+        model = YOLO(pretrained_model)
+        results = model.predict(image_path, save=True, project="./detect")
+
+        for r in results:
+            for box in r.boxes:
+                cls_id = int(box.cls[0])
+                label = model.names[cls_id]
+                detected_objects.add(label)
+
+    return detected_objects
+
+
+@app.post("/images/upload")
 def upload_images():
-    time.sleep(5)
-    return {"success": "Finished"}, 200
+    if "images" not in request.files:
+        return {"error": "No images part in the request"}, 400
+
+    files = request.files.getlist("images")
+
+    if not files:
+        return {"error": "No files uploaded"}, 400
+
+    detected_ingredients = set()
+
+    for file in files:
+        filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(filepath)
+        print(f"Received and saved {filepath}")
+
+        detected_objects = detect_food(filepath)
+        detected_ingredients.update(detected_objects)
+
+    print(detected_ingredients)
+
+    return {"detected_ingredients": list(detected_ingredients)}, 200
 
 
 if __name__ == '__main__':

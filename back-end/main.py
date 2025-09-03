@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 import requests
 from ultralytics import YOLO
-import time
+
 
 from dotenv import load_dotenv
 import os
@@ -104,7 +104,7 @@ def get_similar_recipes():
 
 
 def detect_food(image_path):
-    pretrained_models = ["./models/vegetables/best.pt"]
+    pretrained_models = ["./models/fruits/best(2).pt", "./models/vegetables/best.pt", "./models/meats/best.pt"]
     detected_objects = set()
 
     for pretrained_model in pretrained_models:
@@ -115,7 +115,8 @@ def detect_food(image_path):
             for box in r.boxes:
                 cls_id = int(box.cls[0])
                 label = model.names[cls_id]
-                detected_objects.add(label)
+                ingredient = label.lower()
+                detected_objects.add(ingredient)
 
     return detected_objects
 
@@ -139,8 +140,6 @@ def upload_images():
 
         detected_objects = detect_food(filepath)
         detected_ingredients.update(detected_objects)
-
-    print(detected_ingredients)
 
     return {"detected_ingredients": list(detected_ingredients)}, 200
 

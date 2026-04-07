@@ -1,5 +1,11 @@
 # VisionBite (Bachelor project)
 
+## 📸 Screenshots
+
+| Home Page |
+|----------|
+| ![](./assets/home.jpg) |
+
 ## 📋 Description
 
 **VisionBite** is a smart recipe search application that helps users discover meals based on available ingredients.

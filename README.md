@@ -82,23 +82,6 @@ npm run dev
 ```
 Open the app in your browser: [http://localhost:5173](http://localhost:5173)
 
-## 📚 Documentation
-
-### Frontend / UI
-- [React Documentation](https://react.dev/)
-- [Vite Documentation](https://vitejs.dev/)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-
-### Backend
-- [Flask Documentation](https://flask.palletsprojects.com/en/2.3.x/)
-
-### APIs
-- [Spoonacular API Documentation](https://spoonacular.com/food-api/docs)
-- [RapidAPI Documentation](https://docs.rapidapi.com/docs/navigating-this-documentation)
-
-### Machine Learning / YOLO
-- [Ultralytics YOLO Documentation](https://docs.ultralytics.com/)
-
 ## 📁 Project Structure
 
 ```text
@@ -119,6 +102,23 @@ ThesisApp/
 │           └── my_pages/           # Web page components
 └── README.md              # This file
 ```
+
+## 📚 Documentation
+
+### Frontend / UI
+- [React Documentation](https://react.dev/)
+- [Vite Documentation](https://vitejs.dev/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+### Backend
+- [Flask Documentation](https://flask.palletsprojects.com/en/2.3.x/)
+
+### APIs
+- [Spoonacular API Documentation](https://spoonacular.com/food-api/docs)
+- [RapidAPI Documentation](https://docs.rapidapi.com/docs/navigating-this-documentation)
+
+### Machine Learning / YOLO
+- [Ultralytics YOLO Documentation](https://docs.ultralytics.com/)
 
 ## 📝 Usage
 

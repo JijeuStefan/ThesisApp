@@ -17,7 +17,7 @@ The application integrates an external recipe API to dynamically fetch relevant 
 ### 🖥️ Front-end Demo (Recipe Search)
 ![Frontend Demo](./assets/FindRecipe.gif)
 
-### ⚙️ Back-end / Detection Demo
+### ⚙️ Back-end Demo (Ingredient Detection)
 ![Backend Demo](./assets/IngredientDetection.gif)
 
 ## ✨ Features

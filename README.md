@@ -114,7 +114,6 @@ ThesisApp/
 │       ├── App.jsx        # Start the client
 │       ├── components/    # shadcn/ui / Origin UI components
 │       ├── hooks/         # shadcn/ui / Origin UI hooks
-│       ├── detect/        # Uploaded images with the detected ingredients
 │       └── app/           # GUI logic
 │           ├── my_components/      # App components
 │           └── my_pages/           # Web page components

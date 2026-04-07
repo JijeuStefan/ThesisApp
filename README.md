@@ -1,7 +1,5 @@
 # VisionBite (Bachelor project)
 
-![](./assets/home.JPG)
-
 ## 📋 Description
 
 **VisionBite** is a smart recipe search application that helps users discover meals based on available ingredients.
@@ -15,12 +13,21 @@ Users can refine results using advanced filters such as cooking time, cuisine, d
 The application integrates an external recipe API to dynamically fetch relevant recipes based on detected or provided ingredients.
 
 ## 🎬 Demo
-![App Demo](./assets/demo.gif)
+
+### 🖥️ Front-end Demo (Recipe Search)
+![Frontend Demo](./assets/FindRecipe.gif)
+
+### ⚙️ Back-end / Detection Demo
+![Backend Demo](./assets/IngredientDetection.gif)
 
 ## ✨ Features
 
 - **Text-Based Recipe Search** – Search recipes by manually entering ingredients  
-- **Image-Based Ingredient Detection** – Upload images and detect ingredients using a YOLO model trained on over 70,000 images across 27 ingredient classes 
+- **Image-Based Ingredient Detection** – Detect ingredients from images using **three specialized YOLO models**:
+  - **Meat model**
+  - **Vegetables model**
+  - **Fruits model**  
+  Trained on **70,000+ images across 27 ingredient classes**  
 - **Advanced Filtering System** – Filter recipes by cooking time, cuisine, diet, intolerances, and included/excluded ingredients  
 - **API Integration** – Backend fetches real-time recipe data from Spoonacular API  
 - **Web App** – Built with React, Vite, and Tailwind CSS, using shadcn/ui and Origin UI components

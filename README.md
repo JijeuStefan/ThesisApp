@@ -111,7 +111,7 @@ ThesisApp/
 
 ## 📝 Usage
 
-This project is developed for educational purposes as part of a bachelor's thesis
+This project is developed for educational purposes as part of a bachelor's thesis.
 
 It uses the Spoonacular API for fetching recipe data.
 

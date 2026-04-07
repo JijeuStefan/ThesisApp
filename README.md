@@ -1,10 +1,6 @@
 # VisionBite (Bachelor project)
 
-## 📸 Screenshots
-
-| Home Page |
-|----------|
-| ![](./assets/home.jpg) |
+![](./assets/home.JPG)
 
 ## 📋 Description
 
@@ -17,6 +13,9 @@ The app supports two search methods:
 Users can refine results using advanced filters such as cooking time, cuisine, dietary preferences, intolerances, and ingredient inclusion/exclusion.
 
 The application integrates an external recipe API to dynamically fetch relevant recipes based on detected or provided ingredients.
+
+## 🎬 Demo
+![App Demo](./assets/demo.gif)
 
 ## ✨ Features
 

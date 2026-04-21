@@ -6,7 +6,7 @@
 
 The app supports two search methods:
 - **Text-based search** for manual ingredient input
-- **Image-based search** using three custom trained YOLO model to detect ingredients from photos
+- **Image-based search** using three custom trained YOLO models to detect ingredients from photos
 
 Users can refine results using advanced filters such as cooking time, cuisine, dietary preferences, intolerances, and ingredient inclusion/exclusion.
 
